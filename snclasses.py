@@ -72,7 +72,7 @@ class sntype:
         for c in self.su.cs:
             self.maxcol[c]={'mean':0,'median':0,'std':0, 'n':0}
 
-
+        self.dist=-1
 
     def printtype(self):
         print "######### SN TYPE "+self.type+" ############"
@@ -234,6 +234,7 @@ class mysn:
         self.nir=False
         self.n=0
         self.Vmax=0.0        
+        self.dVmax=0.0        
         self.Vmaxmag=0.0
         self.filters={}
         for b in self.su.bands:
@@ -249,6 +250,7 @@ class mysn:
         self.maxmags={}
         self.flagmissmax=True
         self.lc={}
+        self.ebmvtot=0.0
         for b in self.su.bands:
             self.photometry[b]={'mjd':np.zeros((0),float),'mag':np.zeros((0),float),'dmag':np.zeros((0),float),'extmag':np.zeros((0),float), 'camsys':[''], 'natmag':np.zeros((0),float)}
             self.stats[b]=snstats()
@@ -276,76 +278,89 @@ class mysn:
               self.Vmax=float(self.metadata['CfA VJD bootstrap'])
               if self.Vmax<2400000:
                    self.Vmax=self.Vmax+2400000.5
+              self.dVmax=float(self.metadata['CfA VJD bootstrap error'])
          except:
               try:
                    self.Vmax=float(self.metadata['MaxVJD'])
+                   self.dVmax=1.5
               except:
                    if D11:
                         if verbose:  print "trying D11 V max"
                         try:
                              self.Vmax=float(self.metadata['D11Vmaxdate'])
+                             self.dVmax=float(self.metadata['D11Vmaxdateerr'])
                         except:               
                              self.Vmag=None
                              self.flagmissmax=True  
                    if not self.Vmax:
                          if not loose:
                              self.Vmag=None
-                             self.flagmissmax=False
-                         if verbose:  print "trying with other color max's"
-                         try:
-                              if verbose: print "Rmax: ", self.metadata['CfA RJD bootstrap']
-                              Rmax=float(self.metadata['CfA RJD bootstrap'])
-                              if verbose: print "here Rmax", Rmax
-                              Rmaxflag=True
-                         except:
-                              Rmaxflag=False
-                              pass
-                         try:
-                              if verbose: print "Bmax: ", self.metadata['CfA BJD bootstrap']
-                              Bmax=float(self.metadata['CfA BJD bootstrap'])
-                              if verbose: print "here Bmax", Bmax
-                              Bmaxflag=True
-                         except:
-                              Bmaxflag=False
-                              pass
-                         try:
-                              if verbose: print "Imax: ", self.metadata['CfA IJD bootstrap']
-                              Imax=float(self.metadata['CfA IJD bootstrap'])
-                              if verbose: print "here Imax", Imax                    
-                              Imaxflag=True
-                         except:
-                              Imaxflag=False
-                              pass
+                             self.flagmissmax=True
+                         else:    
+                              if verbose:  print "trying with other color max's"
+                              try:
+                                   if verbose: print "Rmax: ", self.metadata['CfA RJD bootstrap']
+                                   Rmax=float(self.metadata['CfA RJD bootstrap'])
+                                   dRmax=float(self.metadata['CfA RJD error'])
+                                   if verbose: print "here Rmax", Rmax,dRmax
+                                   Rmaxflag=True
+                              except:
+                                   Rmaxflag=False
+                                   pass
+                              try:
+                                   if verbose: print "Bmax: ", self.metadata['CfA BJD bootstrap']
+                                   Bmax=float(self.metadata['CfA BJD bootstrap'])
+                                   dBmax=float(self.metadata['CfA BJD error'])
+                                   if verbose: print "here Bmax", Bmax,dBmax
+                                   Bmaxflag=True
+                              except:
+                                   Bmaxflag=False
+                                   pass
+                              try:
+                                   if verbose: print "Imax: ", self.metadata['CfA IJD bootstrap']
+                                   Imax=float(self.metadata['CfA IJD bootstrap'])
+                                   dImax=float(self.metadata['CfA IJD error'])
+                                   if verbose: print "here Imax", Imax  ,dImax                  
+                                   Imaxflag=True
+                              except:
+                                   Imaxflag=False
+                                   pass
 
-                         if verbose: print "Rmaxflag: ",Rmaxflag
-                         if verbose: print "Bmaxflag: ",Bmaxflag
-                         if verbose: print "Imaxflag: ",Imaxflag
-                         if  Rmaxflag+Bmaxflag+Imaxflag>=2:
-                              if Bmaxflag and Rmaxflag:
-                                   self.Vmax=np.mean([Rmax-1.5+2400000.5,Bmax+2.3+2400000.5])
-                              elif Bmaxflag and Imaxflag:
-                                   self.Vmax=np.mean([Imax-3.1+2400000.5,Bmax+2.3+2400000.5])
-                              elif Rmaxflag and Imaxflag:
-                                   self.Vmax=np.mean([Imax-3.1+2400000.5,Rmax-1.5+2400000.5])
-                              self.flagmissmax=False
-                         elif Rmaxflag+Bmaxflag+Imaxflag>=1 and loose:
-                              if Imaxflag:
-                                   self.Vmax=Imax-3.1+2400000.5
-                                   if verbose: print self.Vmax,Imax
-                              if Rmaxflag:
-                                   self.Vmax=Rmax-1.5+2400000.5
-                                   if verbose: print self.Vmax,Rmax
-                              if Bmaxflag:
-                                   self.Vmax=Bmax+2.3+2400000.5
-                                   if verbose: print self.Vmax,Bmax
-                              self.flagmissmax=False
-                         else:
-                              if earliest:
-                                   self.Vmax=earliestv
+                              if verbose: print "Rmaxflag: ",Rmaxflag
+                              if verbose: print "Bmaxflag: ",Bmaxflag
+                              if verbose: print "Imaxflag: ",Imaxflag
+                              if  Rmaxflag+Bmaxflag+Imaxflag>=2:
+                                   if Bmaxflag and Rmaxflag:
+                                        self.Vmax=np.mean([Rmax-1.5+2400000.5,Bmax+2.3+2400000.5])
+                                        self.dVmax=np.sqrt(sum([dRmax**2,dBmax**2,1.3**2,1.3**2]))
+                                   elif Bmaxflag and Imaxflag:
+                                        self.Vmax=np.mean([Imax-3.1+2400000.5,Bmax+2.3+2400000.5])
+                                        self.dVmax=np.sqrt(sum([dImax**2,dBmax**2,1.3**2,1.5**2]))
+                                   elif Rmaxflag and Imaxflag:
+                                        self.Vmax=np.mean([Imax-3.1+2400000.5,Rmax-1.5+2400000.5])
+                                        self.dVmax=np.sqrt(sum([dRmax**2,dImax**2,1.3**2,1.5**2]))
+                                   self.flagmissmax=False
+                              elif Rmaxflag+Bmaxflag+Imaxflag>=1 and loose:
+                                   if Imaxflag:
+                                        self.Vmax=Imax-3.1+2400000.5
+                                        self.dVmax=np.sqrt(sum([dImax**2,1.5**2]))
+                                        if verbose: print self.Vmax,Imax,self.dVmax
+                                   if Rmaxflag:
+                                        self.Vmax=Rmax-1.5+2400000.5
+                                        self.dVmax=np.sqrt(sum([dRmax**2,1.3**2]))
+                                        if verbose: print self.Vmax,Rmax,self.dVmax
+                                   if Bmaxflag:
+                                        self.Vmax=Bmax+2.3+2400000.5
+                                        self.dVmax=np.sqrt(sum([dBmax**2,1.3**2]))
+                                        if verbose: print self.Vmax,Bmax,self.dVmax
                                    self.flagmissmax=False
                               else:
-                                   self.Vmag=None
-                                   self.flagmissmax=True
+                                   if earliest:
+                                        self.Vmax=earliestv
+                                        self.flagmissmax=False
+                                   else:
+                                        self.Vmag=None
+                                        self.flagmissmax=True
 
 
 
@@ -365,8 +380,11 @@ class mysn:
                     if verbose: 
                          print k
                     self.metadata[k]=row[k]
+                    if verbose: 
+                         print self.metadata[k]
         self.Vmaxflag=False
-        self.setVmax(loose=True, verbose=verbose, D11=D11)
+        self.setVmax(loose=loose, verbose=verbose, D11=D11)
+        self.type=self.metadata['Type']
 
     def setsn(self,sntype,Vmax,ndata=None,filters=None, camsystem=None,pipeline=None):
         self.type=sntype
@@ -417,10 +435,10 @@ class mysn:
                  self.Rmax['ddm15']=np.sqrt(self.Rmax['dmag']**2)#+(r15[2]**2+i15[2]**2))
         print "Rmax",self.Rmax
         if not is_empty(self.Rmax):
-             dist=cosmo_dist([0],[float(self.metadata['z'])],lum=1,Mpc=1)[0]
-             if dist==-1:
-                  dist=float(self.metadata['distance Mpc'])
-             self.Rmax['absmag']=absmag(self.Rmax['mag'],dist,dunits='Mpc')
+             self.dist=cosmo_dist([0],[float(self.metadata['z'])],lum=1,Mpc=1)[0]
+             if self.dist==-1:
+                  self.dist=float(self.metadata['distance Mpc'])
+             self.Rmax['absmag']=absmag(self.Rmax['mag'],self.dist,dunits='Mpc')
 #float(self.metadata['distance Mpc'])
         for k in self.Rmax.keys():
             print "here",k,self.Rmax[k]
@@ -454,7 +472,6 @@ class mysn:
             print "##############  photometry by band: ###############"
             print bands
             for b in bands:
-                print b, self.filters[b] 
                 if self.filters[b] == 0:
                     continue
                 if fout == None:
@@ -481,8 +498,10 @@ class mysn:
                             print >>f,""
                     
         if color:
-#            print "colors : ",self.colors
             for c in cbands:
+                print "\n\n\n",c
+                print "\n\n\ncolors : ",self.colors[c]
+
                 if len(self.colors[c]['mjd']) == 0:
                     continue
                 if fout == None:
@@ -839,10 +858,10 @@ class mysn:
                     xlim=[float(self.stats[mybands[0]].maxjd[0])-53010,float(self.stats[mybands[0]].maxjd[0])+10-53000]
                 else:
                     xlim=[self.Vmax-2453010.5,self.Vmax-2453000+10]
-                    print xlim
+                    #print xlim
             if ylim: 
                 myylim = ylim    
-                print "ylim ",myylim
+                if verbose: print "ylim ",myylim
             elif not self.stats[mybands[0]].maxjd[0]==0.0:
                 myylim=(0,0)
             elif self.Vmax:
@@ -858,7 +877,6 @@ class mysn:
                 while len(self.photometry[mybands[bandind]]['mjd'])==0:
                     bandind+=1
                     if bandind>len(mybands):
-                        print "no photometry???? wtf!!"
                         pass
 #                print mybands[bandind],self.photometry[mybands[bandind]]['mjd']
                 myxlim = (min(self.photometry[mybands[bandind]]['mjd'])-20-53000,
@@ -899,7 +917,6 @@ class mysn:
             for b in mybands:
                 if offsets:offset = boffsets[b]
                 else: offset=0.0
-                print "band here", b
                 if self.filters[b]==0:
                    if verbose:
                         print "nothing to plot for ",b
@@ -907,21 +924,17 @@ class mysn:
                    continue
                 bandswdata.append(b.replace('r','r\'').replace('i','i\''))
 
-                if verbose:
-                    print "plotting band ",b," for ", self.name                
+                if verbose: print "plotting band ",b," for ", self.name                
                 if not relim or ylim:
                     ylim=pl.ylim()
                 if relim:
                     xlim=[min(myxlim[0],min(self.photometry[b]['mjd'])-10-53000),max(myxlim[1],max(self.photometry[b]['mjd'])+10-53000)]
-                    print xlim
                     myxlim=xlim
                     if myylim == (0,0):
                             ylim=(20,0)
-                            print min(self.photometry[b]['mag']),offset
-                            print ylim, min(self.photometry[b]['mag'])-1,max(self.photometry[b]['mag'])+1
                             myylim=(max(ylim[1],max(self.photometry[b]['mag'])+1+offset),
                                     min(ylim[0],min(self.photometry[b]['mag'])-1+offset))
-                            print "this is the new myylim",myylim
+                            if verbose: print "this is the new myylim",myylim
                     else:
                             myylim=(max(ylim[1],(max(myylim[0],max(self.photometry[b]['mag'])+1+offset))),
                                     min(ylim[0],min(myylim[1],min(self.photometry[b]['mag'])-1+offset)))
@@ -954,7 +967,6 @@ class mysn:
                     if plotpoly and self.solution[b]['sol']:
                         myplot_err(fullxrange,self.solution[b]['sol'](fullxrange),symbol='%s-'%self.su.mycolors[b], offset=offset)
                     if plottemplate and not self.stats[b].templrchisq == 0:
-                        print self.templsol[b]
                         myplot_err(fullxrange,self.templsol[b](fullxrange,[self.stats[b].templatefit['stretch'],self.stats[b].templatefit['xoffset'],self.stats[b].templatefit['yoffset'],self.stats[b].templatefit['xstretch']],b), symbol='%s--'%self.su.mycolors[b], offset=offset)
                 if plottemplate :
                      if savepng :
@@ -966,7 +978,7 @@ class mysn:
                          thisdir=            os.environ['SESNPATH']
                          os.system("perl %s/pdfcrop.pl %s"%(thisdir,thisname))
                      if plotspline:
-                         print "plotting spline"
+                         if verbose: print "plotting spline"
                          x = self.photometry[b]['mjd'].astype(np.float64) 
                          fullxrange=np.arange(min(x),max(x),0.1)
                          a=self.snspline[b](fullxrange)
@@ -976,8 +988,6 @@ class mysn:
                          #                    results = zip([x[0] for x in results], smoothed)
                          
                          myplot_err(fullxrange,smoothed,symbol='%s-'%self.su.mycolors[b], offset=offset, settopx=True)
-#                    print smoothed
-
 
             if Vmax and not self.flagmissmax:
                 if self.Vmax:
@@ -990,7 +1000,7 @@ class mysn:
 #                        myplotarrow(self.stats['V'].maxjd[0],min(self.photometry['V']['mag'])-0.5,label="V max")
 #                    except:
 #                        pass
-            print self.Vmax, self.flagmissmax
+            if verbose: print "Vmax:",self.Vmax, self.flagmissmax
             ax.tick_params('both', length=10, width=1, which='major')
             ax.tick_params('both', length=5, width=1, which='minor')
             if not self.flagmissmax:
@@ -999,23 +1009,19 @@ class mysn:
                 ax2.tick_params('both', length=5, width=1, which='minor')
                 ax2.set_xlabel("phase (days)")
 
-                print "putting second axis"
+                if verbose: print "putting second axis"
                 Vmax4plot=self.Vmax
                 if Vmax4plot > 2400000:
                     Vmax4plot -= 2400000
                 if Vmax4plot > 52000:
                     Vmax4plot -= 53000
-                print "putting second axis"
                 ax2.set_xlim((myxlim[0]-Vmax4plot,myxlim[1]-Vmax4plot))
                 if (myxlim[1]-myxlim[0])<100:
                     ax2.xaxis.set_major_locator(MultipleLocator(20))
                 ax2.xaxis.set_minor_locator(MultipleLocator(10))
-                print "putting second axis"
             for i in notused: mybands.remove(i)
-            print "putting second axis"
             if savepng:
                 pl.savefig(self.name+"_"+''.join(mybands)+'.png', bbox_inches='tight')
-#                save=True
             if save:
                 thisname=self.name+"_"+''.join(mybands)+'.pdf'
                 pl.savefig(thisname)
@@ -1055,16 +1061,14 @@ class mysn:
                 for b in mybands:
                     if offsets:offset = boffsets[b]
                     else: offset=0.0
-                    print "band here", b
+                    if verbose: print "band here", b
                     if self.filters[b]==0:
-                        if verbose:
-                            print "nothing to plot for ",b
-                            notused.append(b)
+                        if verbose: print "nothing to plot for ",b
+                        notused.append(b)
                         continue
                     bandswdata.append(b)
 
-                    if verbose:
-                        print "plotting band ",b," for ", self.name
+                    if verbose:print "plotting band ",b," for ", self.name
                     if not relim or ylim:
                         ylim=pl.ylim()
                     elif relim:
@@ -1075,7 +1079,7 @@ class mysn:
                         else:
                             myylim=(max(ylim[1],(max(myylim[0],max(self.photometry[b]['mag'])+1))),
                                     min(ylim[0],min(myylim[1],min(self.photometry[b]['mag'])-1)))
-                    print "myylim",myylim
+                    if verbose: print "myylim",myylim
 #                    if title=='':
 #                        title =self.name 
 #                    myplot_setlabel(xlabel='JD - 2453000.00',ylabel=ylabel,title=title, ax=ax, label=label)
@@ -1089,7 +1093,7 @@ class mysn:
                                               ylim=myylim, symbol=symbol,offset=offset, fig=fig+10))
                     
                     symbol=''
-                    print "vmax",self.Vmax
+                    if verbose: print "vmax",self.Vmax
                     if plotpoly or plottemplate:
                         if self.Vmax:
                             fullxrange=np.arange(float(self.Vmax)-2453000.0-10.,float(self.Vmax)-2453000.0+40.0,0.1)
@@ -1103,7 +1107,6 @@ class mysn:
                         if plotpoly and self.solution[b]['sol']:
                             myplot_err(fullxrange,self.solution[b]['sol'](fullxrange),symbol='%s-'%self.su.mycolors[b], offset=offset)
                         if plottemplate and not self.stats[b].templrchisq == 0:
-                            print self.templsol[b]
                             myplot_err(fullxrange,self.templsol[b](fullxrange,[self.stats[b].templatefit['stretch'],self.stats[b].templatefit['xoffset'],self.stats[b].templatefit['yoffset'],self.stats[b].templatefit['xstretch']],b), symbol='%s--'%self.su.mycolors[b], offset=offset)
                     if savepng:
                         pl.savefig(self.name+"_"+b+".template.png", bbox_inches='tight')
@@ -1112,7 +1115,7 @@ class mysn:
                         pl.savefig(thisname)
                         os.system("perl %s/pdfcrop.pl %s"%(os.environ['SESNPATH'],thisname))
                     if plotspline:
-                        print "plotting spline"
+                        if versbose: print "plotting spline"
                         x = self.photometry[b]['mjd'].astype(np.float64) 
                         fullxrange=np.arange(min(x),max(x),0.1)
                         a=self.snspline[b](fullxrange)
@@ -1189,7 +1192,7 @@ class mysn:
                 if len(self.colors[b]['mjd'])==0:
                     if verbose:
                         print "nothing to plot for ",b
-                        notused.append(b)
+                    notused.append(b)
                     continue
                 if verbose:
                     print "plotting band ",b," for ", self.name
@@ -1240,7 +1243,7 @@ class mysn:
                     if len(self.colors[b]['mjd'])==0:
                         if verbose:
                             print "nothing to plot for ",b
-                            notused.append(b)
+                        notused.append(b)
                         continue
                     if verbose:
                         print "plotting band ",b," for ", self.name
@@ -1272,7 +1275,7 @@ class mysn:
                                 self.colors[b]['mag'],
                                 xlim=myxlim,ylim=(-0.75,2.2), symbol='%so'%self.su.mycolorcolors[b],offset=offset, ax=ax2, nbins=nbins)#    
                 
-                    print b,b[0],self.su.mycolors[b[0]]
+                    #print b,b[0],self.su.mycolors[b[0]]
                     #                legends.append(l)
             for i in notused: mybands.remove(i)
             if savepng:
@@ -1288,9 +1291,9 @@ class mysn:
 
     def cleanphot(self):
         self.Vmaxmag=0.0
-#        self.filters={}
-#        for b in self.su.bands:
-#            self.filters[b]=0
+        self.filters={}
+        for b in self.su.bands:
+            self.filters[b]=0
         self.polysol={}
         self.snspline={}
         self.templsol={}
@@ -1300,6 +1303,7 @@ class mysn:
         self.colors={}
         self.maxcolors={}
         self.maxmags={}
+
         self.flagmissmax=True
 #        self.lc={}
         for b in self.su.bands:
@@ -1316,13 +1320,12 @@ class mysn:
             self.colors[c]={'mjd':[],'mag':[],'dmag':[]}#np.zeros((0),float),'mag':np.zeros((0),float),'dmag':np.zeros((0),float)}
                             
         self.polyfit= None
+        self.setphot()
 
-
-
-    def getphot(self, ebmv=0, RIri=False):
-        print "E(B-V)",ebmv
-        print self.su.bands
-        print self.filters
+    def getphot(self, ebmv=0, RIri=False, verbose=False):
+        if verbose:
+             print self.snnameshort,"E(B-V)",ebmv
+             print self.filters
         for b in self.su.bands:
             ##############################setting up band#########################
             if self.filters[b] <=0:
@@ -1338,6 +1341,7 @@ class mysn:
                     except:
                         pass
             self.getphotband(indx, b)
+            if verbose: print self.snnameshort,b,self.photometry[b]['mjd']
             self.stats[b].tlim = (min(self.photometry[b]['mjd']), max(self.photometry[b]['mjd']))
             self.stats[b].maglim = (min(self.photometry[b]['mag']), max(self.photometry[b]['mag']))
         if not ebmv == 0:
@@ -1349,7 +1353,6 @@ class mysn:
         except:
             if self.Vmax.startswith("<0") and len(self.photometry["V"]['mjd'])>0:
                 self.Vmax ="<24"+str(self.photometry["V"]['mjd'][0]) 
-                self
             if self.Vmax.startswith("<"):
                 try:
                     self.Vmax=self.Vmax.replace("<","")
@@ -1360,8 +1363,10 @@ class mysn:
                     pass
             self.nomaxdate=True
 
-        if self.filters['R'] == 0 and self.filters['I'] == 0 and RIri == True :
+        if self.filters['R'] == 0 and self.filters['I'] == 0 and self.filters['r'] > 0 and self.filters['i']>0 and RIri == True :
              self.getonecolor('r-i')
+#             print "right here",self.filters
+#             self.printsn(color=True,cband='r-i')
              tmptimeline=np.array(self.colors['r-i']['mjd'])+self.Vmax
              if tmptimeline[0]>2300000:
                   tmptimeline-=2400000.5
@@ -1377,7 +1382,7 @@ class mysn:
              self.filters['R']=self.filters['r']
              self.filters['I']=self.filters['R']
              
-        if self.filters['r'] == 0 and self.filters['i'] == 0 and RIri == True :
+        if self.filters['r'] == 0 and self.filters['i'] == 0 and self.filters['B'] > 0 and self.filters['V']>0 and RIri == True :
              ##Jester et al. (2005) transformations via 
              ##https://www.sdss3.org/dr8/algorithms/sdssUBVRITransform.php
              self.getonecolor('B-V')
@@ -1418,8 +1423,8 @@ class mysn:
             pass
 #            self.photometry[b]={'mjd':self.lc['mjd'][indx],'mag':self.lc['mag'][indx],'dmag':self.lc['dmag'][indx], 'camsys':[survey[0] if i<survey_dates[0] else survey[1] if i<survey_dates[1] else survey[2][self.pipeline]  if i<survey_dates[2] else survey[3]   for i in self.lc['mjd'][indx]]}
          
-    def extcorrect(self,ebmv):
-        print "ebmv",ebmv
+    def extcorrect(self,ebmv, verbose=False):
+        if verbose: print "ebmv",ebmv
         for b in self.su.bands:
             R=self.su.AonEBmV[b]*ebmv
             self.photometry[b]['mag']-=R
@@ -1451,22 +1456,35 @@ class mysn:
 #                self.maxcolors[band]['dcolor'] =self.colors[band]['dmag'][indx]
 #            print self.maxcolors[band]['epoch'],self.maxcolors[band]['color'],self.maxcolors[band]['dcolor']
 
-    def getepochcolors(self,band, epoch=0.0, tol=5):
-        print self.name,band,self.colors[band]['mjd'], self.colors[band]['mag'], tol
+    def getepochcolors(self,band, epoch=0.0, tol=5, interpolate=False):
+#        print self.name,band,self.colors[band]['mjd'], self.colors[band]['mag'], tol
+        
         if len(self.colors[band]['mjd'])<1:
-            print "no data"
-            return (float('NaN'),float('NaN'),float('NaN'))
+             print "no data"
+             return (float('NaN'),float('NaN'),float('NaN'))
         else:
-            indx,=np.where(abs(np.array(self.colors[band]['mjd'])-epoch)==min(abs(np.array(self.colors[band]['mjd'])-epoch)))
-#            print self.name,np.array(self.colors[band]['mjd']), epoch,abs((np.array(self.colors[band]['mjd']))-epoch)
-#            print indx
-            if len(indx)>0:
-                indx=indx[0]
-#            print  abs(self.colors[band]['mjd'][indx]-epoch)
-            print band,self.colors[band]['mjd'][indx]-epoch
-            if abs(self.colors[band]['mjd'][indx]-epoch) > tol:
-                return (float('NaN'),float('NaN'),float('NaN'))
-            return (self.colors[band]['mjd'][indx], self.colors[band]['mag'][indx],self.colors[band]['dmag'][indx])
+          if not interpolate:
+               indx,=np.where(abs(np.array(self.colors[band]['mjd'])-epoch)==min(abs(np.array(self.colors[band]['mjd'])-epoch)))
+               #            print self.name,np.array(self.colors[band]['mjd']), epoch,abs((np.array(self.colors[band]['mjd']))-epoch)
+               #            print indx
+               if len(indx)>0:
+                    indx=indx[0]
+               if abs(self.colors[band]['mjd'][indx]-epoch) > tol:
+                    return (float('NaN'),float('NaN'),float('NaN'))
+               return (self.colors[band]['mjd'][indx], self.colors[band]['mag'][indx],self.colors[band]['dmag'][indx])
+          else:
+               ddate=self.colors[band]['mjd']-epoch
+               try:
+                    indlft, = np.arange(ddate.size)[ddate==ddate[ddate<0].max()]
+                    indrgt, = np.arange(ddate.size)[ddate==ddate[ddate>0].min()]
+               except ValueError:
+                    print "the datapoints don't surround epoch, im at the edge ",epoch
+                    return (float('NaN'),float('NaN'),float('NaN'))
+                    
+               mag=interp1d(self.colors[band]['mjd'][indlft:indrgt+1], self.colors[band]['mag'][indlft:indrgt+1],kind='linear')(epoch)
+               err=np.sqrt( self.colors[band]['dmag'][indlft]**2 + self.colors[band]['dmag'][indrgt]**2)
+               return (epoch,float(mag),err)
+               
 
     def getmagmax(self,band,tol=5, verbose=False):
         if is_empty(self.metadata, verbose=verbose):
@@ -1545,7 +1563,11 @@ class mysn:
         
 #        (self.maxmags[band]['epoch'], self.maxmags[band]['mag'], self.maxmags[band]['dmag'])=self.getepochmags(band, tol=tol, epoch=bandepoch)
         
-    def getepochmags(self,band, phase = None,epoch=None, tol=5, interpolate=False, verbose=False):
+    def getepochmags(self,band, phase = None,epoch=None, tol=5, interpolate=False, verbose=False, plot=False):
+            if verbose: print "getting band", band, "magnitudes"
+            if self.filters[band]==0:
+                if verbose: print "no data in filter ",band
+                return (float('NaN'),float('NaN'),float('NaN'))
             if not epoch:
                  if not phase:
                       epoch = self.Vmax-2400000.5
@@ -1554,61 +1576,88 @@ class mysn:
             myc=band.lower()
             if myc=='i':
                  myc='b'
-            pl.plot(self.photometry[band]['mjd'],self.photometry[band]['mag'], '%s-'%myc)
-            pl.errorbar(self.photometry[band]['mjd'],self.photometry[band]['mag'],self.photometry[band]['dmag'],fmt='k.')
-            pl.title(self.name)
-#            pl.draw()
+            if myc=='j':
+                 myc='m'
+            if myc=='h':
+                 myc='c'
+            if myc=='k':
+                 myc='m'
+            if plot:
+                 if phase:
+                      pl.plot(self.photometry[band]['mjd']-self.Vmax+2400000.5,self.photometry[band]['mag'], '%s-'%myc)
+                      pl.errorbar(self.photometry[band]['mjd']-self.Vmax+2400000.5,self.photometry[band]['mag'],self.photometry[band]['dmag'],fmt='k.')
+                 else:
+                      pl.plot(self.photometry[band]['mjd'],self.photometry[band]['mag'], '%s-'%myc)
+                      pl.errorbar(self.photometry[band]['mjd'],self.photometry[band]['mag'],self.photometry[band]['dmag'],fmt='k.')
+                 pl.title(self.name)
+
+                 #            pl.draw()
             try:
-                 indx,=np.where(abs(np.array(self.photometry[band]['mjd'])-epoch)==min(abs(np.array(self.photometry[band]['mjd'])-epoch)))
+                 ddate=abs(np.array(self.photometry[band]['mjd'])-epoch)
+                 indx,=np.where(ddate==min(ddate))
             except ValueError:
                  print "no min "
                  indx=[]
 #            print self.name,np.array(self.colors[band]['mjd']), epoch,abs((np.array(self.colors[band]['mjd']))-epoch)
             if verbose: print indx, self.photometry[band]['mjd'][indx], abs(self.photometry[band]['mjd'][indx]-epoch)
+
             if len(indx)>0:
                  indx=indx[0]
 #            print  abs(self.colors[band]['mjd'][indx]-epoch)
 
-            if abs(self.photometry[band]['mjd'][indx]-epoch) > tol:
-                print "nodata within ",tol,"days of ",epoch
+            if min(ddate)==0:
+                 if verbose: print "observaions at same exact epoch!"
+                 print self.photometry[band]['mjd'][indx], self.photometry[band]['mag'][indx],self.photometry[band]['dmag'][indx]
+                 return (self.photometry[band]['mjd'][indx], self.photometry[band]['mag'][indx],self.photometry[band]['dmag'][indx])
+
+            if min(ddate) > tol and not interpolate:
+                if verbose: print "nodata within ",tol,"days of ",epoch
                 return (float('NaN'),float('NaN'),float('NaN'))
             if verbose: print self.photometry[band]['mjd'][indx], self.photometry[band]['mag'][indx],self.photometry[band]['dmag'][indx]
             if not interpolate:
+                if plot:
+                     if phase:pl.errorbar(self.photometry[band]['mjd'][indx]-thissn.Vmax+2400000.5, self.photometry[band]['mag'][indx],yerr=self.photometry[band]['dmag'][indx],fmt='r')
+                     else: pl.errorbar(self.photometry[band]['mjd'][indx], self.photometry[band]['mag'][indx],yerr=self.photometry[band]['dmag'][indx],fmt='r')
                 return (self.photometry[band]['mjd'][indx], self.photometry[band]['mag'][indx],self.photometry[band]['dmag'][indx])
 
             if interpolate:
-                from scipy.interpolate import interp1d
-                if indx==0 or indx==len(self.photometry[band]['mjd'])-1:
-                     if verbose: print "cannot interpolate: i'm at the edge"
-                     return (self.photometry[band]['mjd'][indx], self.photometry[band]['mag'][indx],self.photometry[band]['dmag'][indx])
+                 if verbose: print "interpolating"
+                 ddate=self.photometry[band]['mjd']-epoch
+                 try:
+                      indlft, = np.arange(ddate.size)[ddate==ddate[ddate<0].max()]
+                      indrgt, = np.arange(ddate.size)[ddate==ddate[ddate>0].min()]
+                 except ValueError:
+                      print "the datapoint dont surroound epoch, im at the edge ",epoch
+                      return (self.photometry[band]['mjd'][indx], self.photometry[band]['mag'][indx],self.photometry[band]['dmag'][indx])
 
-                if self.photometry[band]['mjd'][indx]<epoch:
-                    indx=[indx,indx+1]
-                else:
-                     indx=[indx-1,indx]
-
-                return (epoch, \
-                        interp1d(self.photometry[band]['mjd'][indx],self.photometry[band]['mag'][indx])(epoch),\
-                        np.sqrt(self.photometry[band]['dmag'][indx[0]]**2+self.photometry[band]['dmag'][indx[1]]**2))
-
+                 mag=interp1d(self.photometry[band]['mjd'][indlft:indrgt+1], self.photometry[band]['mag'][indlft:indrgt+1],kind='linear')(epoch)
+                 err=np.sqrt( self.photometry[band]['dmag'][indlft]**2 + self.photometry[band]['dmag'][indrgt]**2)
+                 if plot:
+                      if phase:pl.errorbar(epoch-self.Vmax+2400000.5,float(mag),yerr=err,fmt='r')
+                      else:pl.errorbar(epoch,float(mag),yerr=err,fmt='r')
+                 return (epoch,float(mag),err)
+                 
 #            return (self.photometry[band]['mjd'][indx], self.photometry[band]['mag'][indx],self.photometry[band]['dmag'][indx])
             
         
     def getcolors(self, BmI=False):
      ###setup B-I for bolometric correction as per Lyman 2014
-                   
         for ckey in self.su.cs.iterkeys():
 ##################iterate over the color keys to get the colors cor each object
 ##############THIS IS LAME AND I MUST FIND A BETTER WAY TO DO IT!!###########
              #print ckey
              self.getonecolor(ckey)
-        if BmI:
-              if self.filters['I'] == 0 and (self.filters['i']>0 and self.filters['r']>0):
+             if len(self.colors['r-i']['mjd'])==0: self.getonecolor('r-i')
+             if BmI:
+               if self.filters['I'] == 0 and (self.filters['i']>0 and self.filters['r']>0):
+                   print self.photometry['r'],self.photometry['i']
+
                    tmpmjd=[]
                    tmpI=[]
                    tmpIerr=[]
                    for k,mjd in enumerate(self.photometry['r']['mjd']):
                         timediff=np.abs(np.array(self.colors['r-i']['mjd'])+self.Vmax-2400000.5-mjd)
+                        print timediff
                         if min(timediff)<1.5:
                              mjdind = np.where(timediff == min(timediff))[0]
                              if len(mjdind)>1:
@@ -1623,25 +1672,40 @@ class mysn:
                    #        self.printsn(photometry=True)
                    self.getonecolor('B-I')
                    #        self.printsn(color=True)
-    def getonecolor(self,ckey):
-             for k,mjd in enumerate(self.photometry[ckey[0]]['mjd']):
+
+
+
+    def getonecolor(self,ckey, verbose=False):
+          if verbose:
+               print "ckey",ckey
+               print self.colors[ckey]
+          if not self.colors[ckey]['mjd'] == [] :
+               if not ckey == 'r-i':
+                    print "color",ckey,"is already there. clean it first if you want me to redo it"
+          else:
+
+               for k,mjd in enumerate(self.photometry[ckey[0]]['mjd']):
                     #check vmax:
                     if not type(self.Vmax)==float or float(self.Vmax) <200000:
-                        self.Vmax = float(self.photometry[ckey[0]]['mjd'][0])+2453000.5
+                         self.Vmax = float(self.photometry[ckey[0]]['mjd'][0])+2453000.5
                     mjd = float(mjd)
                     try:
-                        timediff=min(abs(self.photometry[ckey[2]]['mjd']-mjd))
-#                        print "timediff ", timediff
+                         timediff=min(abs(self.photometry[ckey[2]]['mjd']-mjd))
+                         #                        print "timediff ", timediff
                     except:
                          continue
                     if timediff<1.5:
-                        indx= np.where(abs(self.photometry[ckey[2]]['mjd']-mjd) == timediff)[0]
-                        indx=indx[0]
-#                    print "mags ",mjd, photometry[ckey[2]]['mag'][indx]
-                        self.colors[ckey]['mjd'].append(mjd-float(self.Vmax)+2400000.5)
-                        
-                        self.colors[ckey]['mag'].append(self.photometry[ckey[0]]['mag'][k]-self.photometry[ckey[2]]['mag'][indx])
-                        self.colors[ckey]['dmag'].append(np.sqrt(self.photometry[ckey[0]]['dmag'][k]**2+self.photometry[ckey[2]]['dmag'][indx]**2))         
+                         indx= np.where(abs(self.photometry[ckey[2]]['mjd']-mjd) == timediff)[0]
+                         indx=indx[0]
+                         #                    print "mags ",mjd, photometry[ckey[2]]['mag'][indx]
+                         self.colors[ckey]['mjd'].append(mjd-float(self.Vmax)+2400000.5)
+                         
+                         self.colors[ckey]['mag'].append(self.photometry[ckey[0]]['mag'][k]-self.photometry[ckey[2]]['mag'][indx])
+                         self.colors[ckey]['dmag'].append(np.sqrt(self.photometry[ckey[0]]['dmag'][k]**2+self.photometry[ckey[2]]['dmag'][indx]**2))         
+               self.colors[ckey]['mjd']=np.array(self.colors[ckey]['mjd'])
+               self.colors[ckey]['mag']=np.array(self.colors[ckey]['mag'])
+               self.colors[ckey]['dmag']=np.array(self.colors[ckey]['dmag'])
+
 
     def savecolors(self, band=''):
         if band== '': mybands=[k for k in self.su.cs.iterkeys()]
@@ -1731,7 +1795,7 @@ class mysn:
 
     
             
-    def getstats(self,b):
+    def getstats(self,b, verbose=False):
     #find max day and dm15
         xp=np.linspace(min(self.photometry[b]['mjd']),max(self.photometry[b]['mjd']),10000)
 
@@ -1740,7 +1804,7 @@ class mysn:
         #                                               min(solution['sol'](xp)))[0]]
 
         if maxjd > min(self.photometry[b]['mjd']) and maxjd < max(self.photometry[b]['mjd']):
-            print "root found is within data range"
+            if verbose: print "root found is within data range"
             self.stats[b].maxjd = [maxjd,self.solution[b]['sol'](maxjd)]
             self.stats[b].dm15 = self.stats[b].maxjd[1]-self.solution[b]['sol'](maxjd+15.0)
 
@@ -1821,7 +1885,7 @@ class mysn:
                 try: 
                     self.stats[b].maxjd[0]=np.mean(self.stats[b].maxjd[0])                        
                 except: pass
-                print "maxjd is an array: something is very wrong with the fit!"
+                print "WARNING: maxjd is an array: something is very wrong with the fit!"
                 print >>logoutput, "-1000 -1000"
                 self.stats[b].flagmissmax,self.stats[b].flagbadfit=0.0,4
                 pl.savefig("%s.%s.%s.png"%(self.name,b,inst), bbox_inches='tight')

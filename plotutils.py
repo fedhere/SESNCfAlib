@@ -88,6 +88,7 @@ def myplot_err(x,y,yerr=None,xerr=None,xlim=None,ylim=None, symbol=None,alpha=1,
     if not symbol :
         symbol='ko'
     if yerr != None:
+          print color
           pl.errorbar(x,np.asarray(y)+offset, yerr=yerr,xerr=xerr, fmt=None,color=color, ecolor=color,alpha=alpha, markeredgewidth=1.0)
     elif xerr != None:
           pl.errorbar(x,np.asarray(y)+offset, yerr=yerr,xerr=xerr, fmt=None,color=color, ecolor=color,alpha=alpha, markeredgewidth=1.0)

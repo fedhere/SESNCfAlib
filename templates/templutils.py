@@ -44,11 +44,11 @@ class setupvars:
         self.bandsnonir =['U','u','B','V','R','I','r','i']
         self.bandsnir =['J','H','K']
         self.bandsindex ={'U':0,'u':0,'B':1,'V':2,'R':3,'I':4,'r':5,'i':6, 'J':7,'H':8,'K':9}
-        self.cbands = ['U-B','B-i','B-I','B-V','V-R','R-I','r-i','V-r', 'V-i','V-I', 'V-H']
-        self.cs = {'U-B':0,'B-V':1,'V-R':2,'R-I':3,'r-i':4,'V-r':5, 'V-i':6,'V-I':7, 'V-H':8,'I-H':9,'H-J':9,'J-K':10, 'B-I':11,'B-i':11}
+        self.cbands = ['U-B','B-i','B-I','B-V','V-R','R-I','r-i','V-r', 'V-i','V-I', 'V-H', 'r-K','oV-K']
+        self.cs = {'U-B':0,'B-V':1,'V-R':2,'R-I':3,'r-i':4,'V-r':5, 'V-i':6,'V-I':7, 'V-H':8,'I-H':9,'H-J':9,'J-K':10, 'B-I':11,'B-i':11,'r-K':12,'V-K':13}
         self.photcodes = {'U':('01','06'),'B':('02','07'),'V':('03','08'),'R':('04','09'),'I':('05','0a'),'r':('13','0b'),'i':('14','0c'), 'u':('15','15'),'H':('H','H'),'J':('J','J'),'K':('K','K')}
-        self.mycolors = {'U':'k','u':'k','B':'#0066cc','V':'#47b56c','R':'#b20000','I':'m','r':'#b20000','i':'m','J':'#9999EE','H':'#FF77AA','K':'#6BB5FF'}
-        self.mycolorcolors = {'U-B':'k','B-V':'#0066cc','V-R':'#47b56c','R-I':'#b20000','V-I':'m','V-i':'m','V-r':'#47b56c','r-i':'#b20000','V-H':'#9999EE','I-H':'#9999EE','J-K':'#70B8FF','H-J':'#FFCC80'}
+        self.mycolors = {'U':'k','u':'k','B':'#0066cc','V':'#47b56c','R':'#b20000','I':'m','r':'#b20000','i':'m','J':'#4F088A','H':'#FFB700','K':'#A4A4A4'}
+        self.mycolorcolors = {'U-B':'k','B-V':'#0066cc','V-R':'#47b56c','R-I':'#b20000','V-I':'m','V-i':'m','V-r':'#47b56c','r-i':'#b20000','V-H':'#9999EE','I-H':'#9999EE','J-K':'#70B8FF','H-J':'#FFCC80', 'r-K':'purple', 'V-K':'SlateBlue', 'B-I':'#0B0B3B'}
         self.myshapes = {'U':'^','u':'^','B':'s','V':'o','R':'v','I':'>','r':'d','i':'h','J':'^','H':'s','K':'o'}
         self.mytypecolors = {'Ib':'k','Ic':'b','IIb':'g','Ic-bl':'r','IIb-n':'y', 'other':'k'}
         self.mysymbols = {'Ib':'o','Ic':'s','IIb':'^','Ic-bl':'v','IIb-n':'>', 'other':'x'}
@@ -59,15 +59,22 @@ class setupvars:
         self.ebmvs={'93J':0.0690,'94I':0.0302,'95F':0.0311,'95bb':0.0948,'96cb':0.0262,'97X':0.0237,'97dq':0.0382,'97ef':0.0366,'98dt':0.0219,'98fa':0.0382,'00H':0.1964,'01ai':0.0081,'01ej':0.0460,'01gd':0.0098,'02ap':0.0620,'02ji':0.0217,'03jd':0.0784,'04aw':0.0180,'04ao':0.0893,'04dk':0.1357,'04dn':0.0415,'04eu':0.0466,'04fe':0.0210,'04ff':0.0281,'04ge':0.0754,'04gk':0.0247,'04gq':0.0627,'04gt':0.0398,'04gv':0.0286,'05U':0.0143,'05ar':0.0394,'05az':0.0097,'05bf':0.0385,'05da':0.2483,'05ek':0.1811,'05eo':0.0585,'05hg':0.0901,'05kf':0.0378,'05kl':0.0219,'05kz':0.046,'05la':0.0100,'05mf':0.0153,'05nb':0.0320,'06F':0.1635,'06T':0.0647,'06aj':0.1267,'06ba':0.0452,'06bf':0.0216,'06cb':0.0094,'06ck':0.0245,'06el':0.0973,'06ep':0.0310,'06fo':0.0250,'06gi':0.0205,'06ir':0.0393,'06jc':0.0173,'06lc':0.0556,'06ld':0.0144,'06lv':0.0245,'06ss':0.0178,'07C':0.0363,'07D':0.2881,'07I':0.0250,'07ag':0.0250,'07aw':0.0338,'07bg':0.0179,'07ce':0.0200,'07cl':0.0370,'07gr':0.0535,'07hb':0.0518,'07iq':0.1182,'07ke':0.0954,'07kj':0.0691,'07ru':0.2254,'07rz':0.1723,'07uy':0.0194,'08D':0.0194,'08an':0.0450,'08aq':0.0383,'08ax':0.0186,'08bo':0.0513,'08cw':0.0060,'08hh':0.0427,'09er':0.0389,'09iz':0.0729,'09jf':0.0971,'09K':0.0491}
 
 #        self.ebmvhost={'02ap':0.03,'03jd':0.10,'04aw':0.352,'07Y':0.09,'07gr':0.038,'07ru':0.01,'08D':0.59,'08ax':0.28}
-        self.ebmvhost={'02ap':0.03,'03jd':0.10,'04aw':0.352,'07gr':0.038,'07ru':0.01,'08D':0.5406,'08ax':0.3814}
-        self.ebmvhost={'02ap':0.03,'04aw':0.352,'07gr':0.03,'08D':0.5406}
-#        self.ebmvhost={'02ap':0.03,'03jd':0.10,'04aw':0.352,'07gr':0.038,
-#                       '07ru':0.01,'08D':0.5406,'08ax':0.3814, 
-#                       '04dk':0.201,'04dn':0.5265,'04fe':0.294,'04ff':0.274,
-#                       '04gq':0.19,'05az':0.43,'05kz':0.47,'05mf':0.383,
-#                       '06el':0.21,'06C':0.65,
-#                       '05bf':0.007,
-#                       '07uy':0.601, '09jf':0.0146}
+        self.ebmvhost={'02ap':0.03,'03jd':0.10,'04aw':0.352,'07gr':0.038,'07ru':0.01,'08D':0.5406}#,'08ax':0.3814}
+#        self.ebmvhost={'02ap':0.03,'04aw':0.352,'07gr':0.03,'08D':0.5406}
+        self.ebmvhost={'02ap':0.03,'03jd':0.10,'04aw':0.352,#'07gr':0.038,
+                       '07ru':0.01,'08D':0.5406,'08ax':0.3814, 
+                       '04dk':0.201,'04dn':0.5265,
+                       '04fe':0.294,
+                       #'04ff':0.274,
+                       '04gq':0.19,'05az':0.43,'05kz':0.47,
+                       '05hg':0.63,
+                       '05mf':0.383,
+                       '06el':0.21,
+                       #'06C':0.65,
+                       '05bf':0.007,
+                       '07uy':0.601, '09jf':0.0146}
+        self.ebmvcfa={'02ap':0.03,'03jd':0.10,'04aw':0.352,'07ru':0.01,'06el' : 0.1469  , '06ep':   0.4483  ,'06fo'  : 0.1999  ,'07gr':   0.0462  ,'07kj' :  0.2962  ,'07uy' :  0.3776  ,'08bo' :  0.2961  ,'09er' :  0.1093  ,'09iz' :  0.0627  ,'09jf' :  0.0454  ,'05bf':   0.0043  ,'05hg' :  0.2449  ,'05kl' :  1.3462  ,'05kz' :  0.4491  ,'05mf' :  0.2329  ,'06aj' :  0.1437  ,'06bf' :  0.3684  ,'06F' :   0.5362  ,'06lv' :  0.5752  ,'06T' :   0.3960  ,'07ag' :  0.6193  ,'07C' :   0.6514  ,'07ce' :  0.0813  ,'07cl' :  0.2590  ,'08D' :   0.5723  }
+
 #'09iz':0.1,
 #07grxt Drout reddening via Chen 2014 was 0.06, drout is 0.038
 #05hg Cano reddening 0.63 WRONG! from drout photometry?
@@ -189,13 +196,14 @@ class Mytempclass:
                 typetemplate[sn.type][b]=stats.stats.nanmean([new_y,typetemplate[sn.type][b]],axis=0)
                 typetemplate[sn.type][b]=stats.stats.nanmean([new_y,typetemplate[sn.type][b]],axis=0)
 
-def mycavvaccaleib(x,p, secondg=False):
+def mycavvaccaleib(x,p, secondg=False,earlyg=False):
      latebump=False
      if p==None:
           return (x)*99e9
-     if p[8]>p[0]:
-#          print "late bump"
+     if p[8]>p[1]:
+#          print "late bump",
           latebump=True
+          
     #fit the magnitudes with a vacca leibundgut (1997) analytical model 
     #p is the parameter list
     #if secondg=1: secondgaussian added
@@ -214,10 +222,13 @@ def mycavvaccaleib(x,p, secondg=False):
      g=p[4]*(x)+p[3]
      g+=p[0]*np.exp(-(x-p[1])**2/p[2]**2)
      g*=(np.exp(-p[5]*(x-p[6]))+1)
+     if latebump and  earlyg:
+          g*=1e5
      if secondg:
           g+=p[7]*np.exp(-(x-p[8])**2/p[9]**2)    
      if latebump and p[8]-p[1]<15 :
-          g+=(np.zeros(len(g),float)+1)
+          g+=p[7]*np.exp(-(x-p[8])**2/p[9]**2)
+#(np.zeros(len(g),float)+1)
      if p[8]-p[1]>70:
           g+=(np.zeros(len(g),float)+1)
      return g
