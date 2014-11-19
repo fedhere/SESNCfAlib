@@ -1640,7 +1640,7 @@ class mysn:
 #            return (self.photometry[band]['mjd'][indx], self.photometry[band]['mag'][indx],self.photometry[band]['dmag'][indx])
             
         
-    def getcolors(self, BmI=False):
+    def getcolors(self, BmI=False, verbose=False):
      ###setup B-I for bolometric correction as per Lyman 2014
         for ckey in self.su.cs.iterkeys():
 ##################iterate over the color keys to get the colors cor each object
@@ -1650,14 +1650,14 @@ class mysn:
              if len(self.colors['r-i']['mjd'])==0: self.getonecolor('r-i')
              if BmI:
                if self.filters['I'] == 0 and (self.filters['i']>0 and self.filters['r']>0):
-                   print self.photometry['r'],self.photometry['i']
+                   if verbose: print self.photometry['r'],self.photometry['i']
 
                    tmpmjd=[]
                    tmpI=[]
                    tmpIerr=[]
                    for k,mjd in enumerate(self.photometry['r']['mjd']):
                         timediff=np.abs(np.array(self.colors['r-i']['mjd'])+self.Vmax-2400000.5-mjd)
-                        print timediff
+                        if verbose: print "timediff", timediff
                         if min(timediff)<1.5:
                              mjdind = np.where(timediff == min(timediff))[0]
                              if len(mjdind)>1:
