@@ -21,9 +21,9 @@ def adjustFigAspect(fig,aspect=1):
                         bottom=.5-ylim,
                         top=.5+ylim)
 
-def myopenfig(fignumber, xlim,ylim=(23,10)):
+def myopenfig(fignumber, xlim, ylim=(23,10)):
       figcounter=1
-      fig = pl.figure(0)
+      fig = pl.figure(fignumber)
       pl.ylim(ylim)
       return fig
 
@@ -34,68 +34,96 @@ def myplot_txtcolumn(x,y,dy,labels,myfig):
           y=y-dy
         
 
-def myplot_setlabel(xlabel=None,ylabel=None,title=None, label=None, xy=(0,0), ax=None, labsize=15,rightticks=False):
+def myplot_setlabel(xlabel=None, ylabel=None, title=None,
+                    label=None, xy=(0,0), ax=None,
+                    labsize=15, rightticks=False, verbose=False):
     import matplotlib as mpl
     mpl.rcParams['font.size'] = labsize+0.
 #    mpl.rcParams['font.family'] = 'serif'# New Roman'
     mpl.rcParams['font.serif'] = 'Bitstream Vera Serif'
 
     mpl.rcParams['axes.labelsize'] = labsize+1.
-    print labsize+1
     mpl.rcParams['xtick.labelsize'] = labsize+0.
     mpl.rcParams['ytick.labelsize'] = labsize+0.
 
     if label:
-        print "######################## LABELS HERE##########################"
+        if verbose:
+            print ("######################## LABELS HERE ##########################")
         
-        if xy==(0,0):
-            xy=(0.3,0.90)
+        if xy==(0, 0):
+            xy=(0.22, 0.20)
         if not ax:
-            print "WARNING: no axix, cannot place label"
-            pl.figtext(xy[0],xy[1],label, fontsize=labsize)
+            print ("WARNING: no axix, cannot place label")
+            pl.figtext(xy[0], xy[1], label, fontsize=labsize)
+            pl.xlabel(xlabel, fontsize=labsize+1)
+            pl.ylabel(ylabel, fontsize=labsize+1)            
         else:
-            pl.text(xy[0],xy[1],label, transform=ax.transAxes, fontsize=labsize)
+            pl.text(xy[0], xy[1], label, transform=ax.transAxes, fontsize=labsize)
             if rightticks:
                 ax.yaxis.tick_right()
-    pl.xlabel(xlabel, fontsize=labsize+1)
-    pl.ylabel(ylabel, fontsize=labsize+1)
+            ax.set_xlabel(xlabel, fontsize=labsize+1)
+            ax.set_ylabel(ylabel, fontsize=labsize+1)
     if title:
-        pl.title(title)
+        _ = pl.title(title)
 
-def myplot_err(x,y,yerr=None,xerr=None,xlim=None,ylim=None, symbol=None,alpha=1, offset=0, fig = None, fcolor=None,ms=7, settopx=False, markeredgewidth=1):
-    print symbol,
+def myplot_err(x, y, yerr=None, xerr=None, xlim=None, ylim=None,
+               symbol=None, alpha=0.5, offset=0, fig = None, fcolor=None,
+               ms=7, settopx=False, markeredgewidth=1, litsn=None, ax=None):
+
+#    print "litsn", litsn
     import matplotlib as mpl
     mpl.rcParams['figure.dpi'] = 150 
     if symbol:
         color=symbol[:-1]
         marker=symbol[-1]
-        if not fcolor:
-            fcolor=color
     else:
         color = 'blue'
         marker='o'
         fcolor=color
-    if fig:
-        fig =pl.figure(fig)
+    if not fig:
+        fig = pl.figure()
+        ax = pl.add_subplot(111)
+    #print fig
 #    print "from myplot_err:",symbol,xlim,ylim
     if xlim :
-        pl.xlim(xlim)
+        ax.set_xlim(xlim)
     if ylim :
-        pl.ylim(ylim)
-    print xlim,ylim
+        ax.set_ylim(ylim)
+    #print xlim,ylim
 #,x
+    if not isinstance(litsn, np.ndarray):
+        litsn=[]
+    #print "litsn", litsn
 
+    
     if not symbol :
         symbol='ko'
-    if yerr != None:
-          print color
-          pl.errorbar(x,np.asarray(y)+offset, yerr=yerr,xerr=xerr, fmt=None,color=color, ecolor=color,alpha=alpha, markeredgewidth=1.0)
-    elif xerr != None:
-          pl.errorbar(x,np.asarray(y)+offset, yerr=yerr,xerr=xerr, fmt=None,color=color, ecolor=color,alpha=alpha, markeredgewidth=1.0)
-    return pl.plot(x,np.asarray(y)+offset,".",marker=marker,alpha=alpha, markersize=ms,markerfacecolor=fcolor,mec=color, markeredgewidth=markeredgewidth)
+    if yerr is not None:
+          #print color
+          ax.errorbar(x, np.asarray(y) + offset, yerr=yerr, xerr=xerr,
+                      fmt=None, color=color,
+                      ecolor=color, alpha=alpha, markeredgewidth=1.0)
+
+    elif xerr is not None:
+          ax.errorbar(x, np.asarray(y) + offset, yerr=yerr, xerr=xerr,
+                      fmt=None, color=color,
+                      ecolor=color, alpha=alpha, markeredgewidth=1.0)
+
+    thisp = ax.plot(x, np.asarray(y) + offset, ".", marker=marker,
+                    alpha=alpha, markersize=ms,
+                    markerfacecolor=fcolor, mec=color,
+                    markeredgewidth=markeredgewidth)
+#    print litsn
+
+    ax.plot(x[litsn], np.asarray(y[litsn]) + offset, ".",
+            marker=marker, alpha=alpha, markersize=ms,
+            markerfacecolor=fcolor, mec='slategrey',
+            markeredgewidth=1)
+    return thisp
     #return #pl.plot(x,y+offset,symbol,alpha=alpha, markersize=8)
 
-def myplot_hist(x,y,xlim=None,ylim=None, symbol=None,alpha=1, offset=0, fig = None, fcolor=None, ax=None, nbins=None):
+def myplot_hist(x, y, xlim=None, ylim=None, symbol=None, alpha=1, offset=0,
+                fig = None, fcolor=None, ax=None, nbins=None):
 
     if symbol:
         color=symbol[:-1]
@@ -113,17 +141,17 @@ def myplot_hist(x,y,xlim=None,ylim=None, symbol=None,alpha=1, offset=0, fig = No
         pl.xlim(xlim)
     if ylim :
         pl.ylim(ylim)
-    print xlim,ylim,x,y
+    #print xlim,ylim,x,y
     if not symbol :
         symbol='ko'
-    print nbins
+    #print nbins
     if nbins is None:
         nbins=int((xlim[1]-xlim[0])/10)
     else:
         nbins=int((xlim[1]-xlim[0])/nbins)
-    print nbins
-    print xlim[0],xlim[1], np.asarray(x),np.asarray(y),nbins,ax
-    print "\n\n\n"
+    print (nbins)
+    print (xlim[0],xlim[1], np.asarray(x),np.asarray(y),nbins,ax)
+    print ("\n\n\n")
     
     X,Y,Ystd=binMeanStdPlot(np.asarray(x),np.asarray(y),numBins=nbins,xmin=xlim[0],xmax=xlim[1], ax=ax)
     
@@ -199,16 +227,19 @@ def binWMeanStdPlot(X,Y,std,ax=None,numBins=8,xmin=None,xmax=None, binsize=None)
     for binInd in range(numBins):
         XX.append(np.mean((bins[binInd], bins[binInd+1])) )
         thisY=Y[(X > bins[binInd]) & (X <= bins[binInd+1])]
-        print "thislen",XX[-1],len(thisY)
+        print ("thislen",XX[-1],len(thisY))
         if len(thisY)>0:            
             YY.append(np.average(thisY, weights=1.0/(np.array(std[(X > bins[binInd]) & (X <= bins[binInd+1])]))**2))
-            print thisY,std[(X > bins[binInd]) & (X <= bins[binInd+1])],1.0/(np.array(std[(X > bins[binInd]) & (X <= bins[binInd+1])]))**2,np.average(thisY, weights=1.0/np.array(std[(X > bins[binInd]) & (X <= bins[binInd+1])])**2),np.average(thisY)
+            print (thisY,std[(X > bins[binInd]) & (X <= bins[binInd+1])],
+                   1.0/(np.array(std[(X > bins[binInd]) & (X <= bins[binInd+1])]))**2,
+                   np.average(thisY, weights=1.0/np.array(std[(X > bins[binInd]) & (X <= bins[binInd+1])])**2),
+                   np.average(thisY))
 
         else:
             YY.append(float('nan'))
-        print "\n\n"
+        print ("\n\n")
 
-    print "\n\n\n",YY[-1],"\n\n\n"
+    print ("\n\n\n",YY[-1],"\n\n\n")
 
     YYstd = np.array([np.std(Y[(X > bins[binInd]) & (X <= bins[binInd+1])]) for binInd in range(numBins)])
     return XX, np.array(YY), YYstd
@@ -223,7 +254,7 @@ def binMedianStdPlot(X,Y,ax=None,numBins=8,xmin=None,xmax=None,binsize=None):
     else:
         binsize=(xmin-xmax)/numBins
     bins = np.arange(xmin,xmax+binsize,binsize)
-    print xmin,xmax,bins, numBins
+    print (xmin,xmax,bins, numBins)
     XX = np.array([np.mean((bins[binInd], bins[binInd+1])) for binInd in range(numBins)])
     YY = np.array([np.median(Y[(X > bins[binInd]) & (X <= bins[binInd+1])]) for binInd in range(numBins)])
     #XX[np.isnan(YY)]=np.nan
