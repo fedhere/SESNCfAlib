@@ -1,0 +1,316 @@
+Name,Mmax,Instruments/Bands,Type,Phot.,Spec.
+SN2000ds,-14,"VLA, C, R",Ib,6,
+SN2003bp,-17,"C, R",Ib,6,4
+SN2016Q,-18.2,"w, y, g, r, i, z",Ib,6,
+SN1995F,-17,"C, V, R",Ib,7,13
+SN2016bkj,-20,i,Ib,7,
+SN2001ai,-18.84,"C, R",Ib,8,2
+LSQ13cum,-17,"y, g, r, i, z",Ib,9,
+SN2000dt,-18,"C, R",Ib,10,2
+SN2015Q,-10,"y, r, i, z",Ib,12,
+SN2016bke,-20,"y, g, r, i, z",Ib,13,
+SN2002ji,-17,"C, R",Ib,14,12
+PS15bhi,-17,"w, y, g, r, i, z",Ib,14,
+SN2016bir,-19,"y, g, r, i, z",Ib,14,1
+SN2016bll,-16.77,"w, y, g, r, i, z",Ib,14,1
+SN2004gv,-20,"V, r', R, i'",Ib,16,5
+PSN J22411479-2147421,-17,"w, y, g, r, i, z",Ib,17,
+SN2016bau,-15.95,"y, r, i, z",Ib,17,1
+SN1991D,-18,"B, V, R",Ib,18,5
+SN2006cb,-16,"B, V, r', i'",Ib,18,
+SN2016aws,-17,"w, y, g, r, i, z",Ib,18,
+SN2007ke,-14.6,"VLA, B, V, r', i'",Ib,19,
+SN1997X,-14,"C, U, B, V, R, I",Ib,20,7
+SN1984L,-17,"U, B, V, R",Ib,25,2
+SN2010cn,-17,"UVOT (W2, W1, M2, U, B, V)",Ib,28,
+OGLE-2014-SN-014,-18,I,Ib,35,
+SN2001ej,-16,"C, B, V, R, I",Ib,37,8
+SN2007ag,-15.6,"B, V, r', i'",Ib,38,2
+SN1985F,-20,"B, V",Ib,38,
+SN2001B,-16,"C, V, R",Ib,42,3
+SN2014C,-14.37,"UVOT (W2, W1, M2, U, B, V)",Ib,43,
+SN1984I,-18,"U, B, V",Ib,44,
+SN2006dn,-17,"UVOT (W2, W1, M2, U, B, V), V, R",Ib,47,
+SN2011am,-16,"UVOT (W2, W1, M2, U, B, V), C",Ib,61,
+iPTF13bvn,-15.7,"UVOT (W2, W1, M2, U, B, V)",Ib,63,25
+SN2006F,-10,"C, U, B, V, r', R, i'",Ib,67,
+SN2007kj,-16.4,"B, V, r', i'",Ib,68,3
+SN1972R,-13.8,"pv, B, V",Ib,77,
+SN2007qw,-19.4254,"u', g', r', i', z'",Ib,80,
+SN2007Y,-16,"UVOT (W2, W1, M2, U, B, V)",Ib,83,13
+SN2005hl,-17.694,"u', g', r', i', z'",Ib,86,
+SN2006lv,-13,"B, V, r', i'",Ib,87,6
+SN2004dk,-20,"B, V, R, I",Ib,88,5
+SN2004gq,-15,"Ks, U, B, V, r', R, i', J, H",Ib,88,25
+SN1983N,-17,"U, B, V",Ib,90,1
+SN2006ep,-16,"B, V, r', i'",Ib,91,5
+SN2005hm,-16.943,"u', g', r', i', z'",Ib,96,
+SN2007gl,-16.727,"u', g', r', i', z'",Ib,98,
+SN2007nc,-17.618,"u', g', r', i', z'",Ib,98,1
+SN1990I,-17,"B, V, R, I",Ib,101,13
+SN2005mn,-17.024,"u', g', r', i', z'",Ib,104,
+SN2004ao,-15,"U, B, V, R, I",Ib,107,30
+SN2006qk,-17.26,"u', g', r', i', z'",Ib,107,2
+SN2006jo,-18.121,"u', g', r', i', z'",Ib,110,1
+SN1976B,-16,"pg, U, B, V",Ib,115,
+SN2006lc,-15,"UVOT (W2, W1, M2, U, B, V), u', B, g', V, r', i', z'",Ib,146,5
+SN2006gi,-15.9,"B, V, r', R, i', I",Ib,159,1
+SN1954A,-17,"pg, U, B, V",Ib,167,12
+SN2006ld,-15.4,"Ks, U, B, V, r', i', J, H",Ib,173,4
+SN2009jf,-17,"Ks, u', B, V, r', i', J, H",Ib,185,44
+SN2009iz,-17,"UVOT (W2, W1, M2, U, B, V), Ks, u', B, V, r', i', J, H",Ib,234,10
+SN2007C,-14,"UVOT (W2, W1, M2, U, B, V), Ks, B, V, r', R, i', J, H",Ib,260,14
+SN2006fo,-16.525,"Ks, u', B, g', V, r', R, i', z', J, H",Ib,321,7
+SN2008D,-14,"Ks, U, B, V, r', R, i', I, J, H",Ib,343,56
+SN2005hg,-17,"Ks, U, B, V, r', R, i', J, H",Ib,392,18
+SN2005bf,-17.945,"Ks, U, B, V, r, r', i, i', J, H, K",Ib,551,33
+SN1999ex,-16,"C, U, B, V, R, I",Ib,630,7
+SN2013el,-17.541,"UVOT (W2, W1, M2, U, B, V)",Ib Pec,18,
+SN2009er,-18,"C, Ks, B, V, r', i', J, H",Ib Pec,100,9
+SN2007uy,-15,"Ks, B, V, r', i', J, H",Ib Pec,312,10
+SN2010et,-16,"VLA, C",Ib-Ca,18,7
+SN2005la,-16.4,"B, V, r', R, i', I",Ib-n/IIb-n,89,9
+SN2011bl,-17.7,"UVOT (W2, W1, M2)",Ib/c,19,
+Gaia16afw,-10,"w, y, g, r, i, z",Ib/c,19,1
+SN2012P,-14.49,"UVOT (W2, W1, M2, U, B, V)",Ib/c,21,1
+SDSS-II SN 12081,,"g', r'",Ib/c,25,
+SN2006ir,-20,"V, r', i'",Ib/c,37,
+SN2001ig,-20,"C, B, V, R",Ib/c,48,16
+SDSS-II SN 20552,-18.6364,"u', g', r', i', z'",Ib/c,62,
+SDSS-II SN 20874,-18.1385,"u', g', r', i', z'",Ib/c,71,
+SDSS-II SN 5339,-18.5,"u', g', r', i', z'",Ib/c,73,
+SDSS-II SN 19987,-19.6,"u', g', r', i', z'",Ib/c,78,
+SDSS-II SN 20536,-22.1,"u', g', r', i', z'",Ib/c,78,
+SDSS-II SN 20866,-20.5403,"u', g', r', i', z'",Ib/c,79,
+SDSS-II SN 21697,-18.1551,"u', g', r', i', z'",Ib/c,80,
+SDSS-II SN 2699,-16.552,"u', g', r', i', z'",Ib/c,82,
+SDSS-II SN 2986,-16.552,"u', g', r', i', z'",Ib/c,82,
+SDSS-II SN 21185,-19.2566,"u', g', r', i', z'",Ib/c,84,
+SDSS-II SN 1958,-20.28,"u', g', r', i', z'",Ib/c,85,
+SDSS-II SN 9194,-16.175,"u', g', r', i', z'",Ib/c,85,
+SDSS-II SN 16160,-19.7372,"u', g', r', i', z'",Ib/c,87,
+SDSS-II SN 6614,-18.6318,"u', g', r', i', z'",Ib/c,88,
+SDSS-II SN 7630,-19.2,"u', g', r', i', z'",Ib/c,88,
+SDSS-II SN 19209,-18.0777,"u', g', r', i', z'",Ib/c,89,
+SDSS-II SN 19525,-18.6797,"u', g', r', i', z'",Ib/c,89,
+SDSS-II SN 6660,-18.7,"u', g', r', i', z'",Ib/c,89,
+SDSS-II SN 6813,-19.8244,"u', g', r', i', z'",Ib/c,89,
+SDSS-II SN 20682,,"u', g', r', i', z'",Ib/c,91,
+SDSS-II SN 19195,-20.8,"u', g', r', i', z'",Ib/c,92,
+SDSS-II SN 19599,-21.3346,"u', g', r', i', z'",Ib/c,92,
+SDSS-II SN 8086,-16.22,"u', g', r', i', z'",Ib/c,92,
+SN2007sj,-17.35,"u', g', r', i', z'",Ib/c,92,1
+SDSS-II SN 10396,,"u', g', r', i', z'",Ib/c,93,
+SDSS-II SN 6861,-18.6739,"u', g', r', i', z'",Ib/c,93,
+SDSS-II SN 13330,,"u', g', r', i', z'",Ib/c,95,
+SDSS-II SN 14419,-18.6087,"u', g', r', i', z'",Ib/c,95,
+SDSS-II SN 6367,,"u', g', r', i', z'",Ib/c,95,
+SDSS-II SN 15367,-17.91,"u', g', r', i', z'",Ib/c,96,
+SDSS-II SN 16708,,"u', g', r', i', z'",Ib/c,96,
+SDSS-II SN 6520,-18.3065,"u', g', r', i', z'",Ib/c,96,
+SDSS-II SN 17312,-16.891,"u', g', r', i', z'",Ib/c,97,
+SDSS-II SN 19793,-21.165,"u', g', r', i', z'",Ib/c,98,
+SDSS-II SN 20301,,"u', g', r', i', z'",Ib/c,98,
+SDSS-II SN 20886,-21.2336,"u', g', r', i', z'",Ib/c,98,
+SDSS-II SN 16169,-20.016,"u', g', r', i', z'",Ib/c,99,
+SDSS-II SN 18468,-18.1923,"u', g', r', i', z'",Ib/c,99,
+SDSS-II SN 22282,-16.785,"u', g', r', i', z'",Ib/c,99,
+SDSS-II SN 6213,-18.4997,"u', g', r', i', z'",Ib/c,99,
+SDSS-II SN 13979,,"u', g', r', i', z'",Ib/c,100,
+SDSS-II SN 16085,-19.0235,"u', g', r', i', z'",Ib/c,100,
+SDSS-II SN 8196,-17.462,"u', g', r', i', z'",Ib/c,100,
+2MASS J00503990-0102312,-20.0448,"u', g', r', i', z'",Ib/c,101,
+SDSS-II SN 13777,-20.8693,"u', g', r', i', z'",Ib/c,101,
+SDSS-II SN 9317,-19.0592,"u', g', r', i', z'",Ib/c,101,
+SDSS-II SN 2234,-16.678,"u', g', r', i', z'",Ib/c,102,
+SDSS-II SN 11927,-18.7485,"u', g', r', i', z'",Ib/c,103,
+SDSS-II SN 12035,,"u', g', r', i', z'",Ib/c,103,
+SDSS-II SN 20999,-17.332,"u', g', r', i', z'",Ib/c,103,
+SDSS-II SN 18884,-18.75,"u', g', r', i', z'",Ib/c,104,
+SDSS-II SN 19065,-19.1952,"u', g', r', i', z'",Ib/c,104,
+SDSS-II SN 21046,-20.812,"u', g', r', i', z'",Ib/c,104,
+SDSS-II SN 4664,,"u', g', r', i', z'",Ib/c,105,
+SDSS-II SN 5247,-20.6211,"u', g', r', i', z'",Ib/c,105,
+SDSS-II SN 13269,,"u', g', r', i', z'",Ib/c,106,
+SDSS-II SN 15343,-19.1811,"u', g', r', i', z'",Ib/c,106,
+SDSS-II SN 15757,-17.657,"u', g', r', i', z'",Ib/c,106,
+SDSS-II SN 15994,-18.7905,"u', g', r', i', z'",Ib/c,106,
+SDSS-II SN 16125,-18.1256,"u', g', r', i', z'",Ib/c,106,
+SDSS-II SN 16282,-17.533,"u', g', r', i', z'",Ib/c,106,
+SDSS-II SN 16452,-19.1976,"u', g', r', i', z'",Ib/c,106,
+SDSS-II SN 7923,,"u', g', r', i', z'",Ib/c,106,
+SDSS-II SN 14695,-19.1141,"u', g', r', i', z'",Ib/c,107,
+SDSS-II SN 15803,-20.8916,"u', g', r', i', z'",Ib/c,107,
+SDSS-II SN 16768,-18.5685,"u', g', r', i', z'",Ib/c,107,
+SDSS-II SN 14532,-19.3492,"u', g', r', i', z'",Ib/c,108,
+SDSS-II SN 19190,,"u', g', r', i', z'",Ib/c,108,
+SDSS-II SN 11305,-18.7,"u', g', r', i', z'",Ib/c,109,
+SDSS-II SN 13458,-20.1263,"u', g', r', i', z'",Ib/c,109,
+SDSS-II SN 11241,-18.082,"u', g', r', i', z'",Ib/c,111,
+SDSS-II SN 14090,-20.5216,"u', g', r', i', z'",Ib/c,112,
+SDSS-II SN 15943,-19.2542,"u', g', r', i', z'",Ib/c,112,
+SDSS-II SN 14169,-20.4997,"u', g', r', i', z'",Ib/c,114,
+SDSS-II SN 17107,-18.754,"u', g', r', i', z'",Ib/c,114,
+SDSS-II SN 14177,-20.2295,"u', g', r', i', z'",Ib/c,115,
+SDSS-II SN 13482,-20.287,"u', g', r', i', z'",Ib/c,126,
+SDSS-II SN 14591,-20.4,"u', g', r', i', z'",Ib/c,128,
+SDSS-II SN 16976,-16.7,"u', g', r', i', z'",Ib/c,129,
+SDSS-II SN 4808,-20.234,"u', g', r', i', z'",Ib/c,158,
+SDSS-II SN 17897,,"u', g', r', i', z'",Ib/c,164,
+SDSS-II SN 14661,-18.5659,"u', g', r', i', z'",Ib/c,169,
+SN2005im,-18.2648,"u', g', r', i', z'",Ib/c,185,
+SDSS-II SN 19045,-17.26,"u', g', r', i', z'",Ib/c,195,
+SDSS-II SN 16114,,"u', g', r', i', z'",Ib/c,203,
+SDSS-II SN 15946,-20.7464,"u', g', r', i', z'",Ib/c,210,
+OGLE15jy,-20,I,Ib/c?,24,1
+PS15bvb,-17,"y, g, r, i, z",Ib/IIb,10,1
+ASASSN-15ed,-16.44,"y, g, r, i, z",Ibn,9,15
+SN2000er,-19,"C, B, V, R",Ibn,11,5
+LSQ12btw,-19.3,"Z, V, R, I",Ibn,42,6
+SN2011hw,-18,"UVOT (W2, W1, M2, U, B, V), B, R, I",Ibn,54,14
+SN2010al,-18.3,"UVOT (W2, W1, M2, U, B, V)",Ibn,61,19
+PS1-12sk,-19.28,"RATCam (u, g, r, i, z), UVOT (W2, W1, M2), y, U, B, g, V, r, i, z, J, H, K",Ibn,75,5
+LSQ13ccw,-17.9,"B, V, R, I",Ibn,94,3
+SN2015U,-16.3,"clear, B, V, R, I",Ibn,102,20
+OGLE-2012-SN-006,-20,"KS, U, B, V, R, I, J, H",Ibn,312,19
+SN2006jc,-17.9,"UVOT (W2, W1, M2, U, B, V), Ks, U, B, V, r', R, i', I, J, H",Ibn,690,72
+SN2001bb,-18,"C, R",Ic,6,1
+SN2002ho,-16,"C, R",Ic,6,
+PS1-14kd,,"w, y, g, r, i, z",Ic,6,
+PS16ccd,-20,"y, g, r, i, z",Ic,6,1
+SN2002cj,-19,"C, V, R",Ic,7,1
+SN2002bl,-18,"C, R",Ic,9,1
+SN2003L,-19.9,"C, R",Ic,9,2
+SN1997ei,-17.05,"V, R",Ic,10,4
+SN2001ch,-17,"C, R",Ic,10,
+SN2002jp,-17,"C, R",Ic,10,1
+SN2000ew,-17,"C, R",Ic,11,1
+SN2010S,,"UVOT (W2, W1, M2, U, B, V), C",Ic,11,
+SN2006ab,-16,"V, R",Ic,12,
+SN2016cce,-16,"w, y, r, i, z",Ic,12,1
+SN1991N,-16,"B, V",Ic,13,9
+SN2008an,-16.3,"B, V, r', i'",Ic,13,2
+PS15bap,-20,"y, g, r, i, z",Ic,13,
+SN1997dq,-15,"B, V, R",Ic,14,17
+SN2000F,-14.1,"C, B, V, R, I",Ic,14,2
+SN2007aw,-14,"B, V, r', i'",Ic,15,
+SN2008hh,-19,"Ks, J, H",Ic,15,
+Gaia16amw,,"y, g, r, i, z",Ic,17,
+PS15axw,-20,"y, g, r, i, z",Ic,18,
+SN2004ge,-17,"V, R",Ic,19,1
+J143227.42+333225.1,-23.58,"i, z",Ic,20,3
+PS15cvn,-20,"C, w, y, g, r, i, z",Ic,20,1
+SN2014eh,-17.577,"w, y, g, r, i, z",Ic,22,
+SN1992ar,-18.2,"B, V, R",Ic,23,
+SN2007hb,-14.2,"B, V, r', i'",Ic,23,2
+OGLE15vk,-20,I,Ic,24,1
+SN2000C,-19,"C, V, R",Ic,25,3
+SN1987M,-15,"B, V, R",Ic,25,5
+OGLE-2013-SN-091,-20,I,Ic,27,1
+PS1-10awh,-22.3,"NUV, y, g, r, i, z",Ic,31,3
+OGLE-2013-SN-134,-17,I,Ic,32,1
+OGLE15rb,-16,I,Ic,33,1
+SN1983I,-16,"U, B, V",Ic,40,
+SN2005kf,,"B, V, r', i'",Ic,42,5
+SN2000cr,-18,R,Ic,43,2
+SN2007rz,-15,"B, V, r', i'",Ic,43,2
+SN2004fe,-17,"B, V, r', R, i'",Ic,46,13
+OGLE-2014-SN-067,-18.6,I,Ic,49,1
+SN2005ek,-15.431,"UVOT (W2, W1, M2, U, B, V), Ks, J, H",Ic,54,8
+SN2005kz,-16,"B, V, r', R, i'",Ic,56,
+LSQ14bdq,-22,"g, r, i, z",Ic,60,3
+PS15cyo,-16,"w, y, g, r, i, z",Ic,60,1
+SN1964L,-18,"B, V",Ic,62,1
+SN2006ck,-15.6,"B, V, r', R, i'",Ic,69,9
+SN2012il,-21.3,"C, g, r, i, z",Ic,70,7
+SN2007ms,-18,"u', g', r', z'",Ic,73,3
+SN2007cl,-16.7,"B, V, r', i'",Ic,81,1
+SN2005fk,-19.1932,"u', g', r', i', z'",Ic,83,
+SN2013dg,-20.74,"C, g, r, i, z",Ic,83,7
+SN2011kf,-21.9,"C, g, r, i, z",Ic,85,2
+SN2007qx,-18.043,"u', g', r', i', z'",Ic,90,1
+SN2007qv,-20.133,"C, u', g', r', i', z'",Ic,94,
+SN2005ks,-18.468,"u', g', r', i', z'",Ic,95,
+SN1990B,-14,"B, V, R, I",Ic,96,22
+SN2004dn,-15.1,"B, V, R, I",Ic,105,5
+SN2006fe,-17.742,"u', g', r', i', z'",Ic,110,1
+SN2004gt,-13,"Ks, B, V, r', R, i', J, H",Ic,115,14
+SN2005kr,-19.1,"u', g', r', i', z'",Ic,116,
+SN2005em,-18.2,"u', g', r', i', z'",Ic,121,
+SN2006nx,-19.1,"u', g', r', i', z'",Ic,127,3
+SN2007bi,-20.13,"B, V, R, I",Ic,136,3
+SN1962L,-15,"pg, U, B, V",Ic,154,1
+SN2005az,-15,"Ks, B, V, r', R, i', J, H",Ic,160,22
+SDSS-II SN 14475,-18.6091,"u', g', r', i', z'",Ic,185,
+SN2005kl,-12,"Ks, B, V, r', i', J, H",Ic,202,6
+SN2005mf,-16.51,"Ks, U, B, V, r', R, i', J, H",Ic,211,4
+PTF12gzk,-18.41,"UVOT (W2, W1, M2, U, B, V), C, Z, B, g, V, r, R, i, I, Y, J, H, K",Ic,213,53
+SN2004aw,-16,"U, B, V, R, I",Ic,259,35
+SN2013ge,-16.07,"CAO (B, V, R, I), FLWO (B, V), IMACS (r), LBT (r, i), MMTCam (r, i, z), UVOT (W2, W1, M2, U, B, V)",Ic,266,38
+SN2004gk,-16,"Ks, B, V, r', R, i', I, J, H",Ic,274,32
+SN2011bm,-18,"u', U, B, g', V, r', R, i', I, z'",Ic,310,17
+SN1994I,-15,"U, B, V, R, I",Ic,373,43
+SN2015bn,-22.1,"UVOT (W2, W1, M2, U, B, V), C, w, u, B, g, V, r, R, i, I, z, J, H, K",Ic,551,28
+SN2007gr,-20,"Ks, U, B, V, r', R, i', I, J, H",Ic,767,31
+SN2010ay,-20,"C, R",Ic BL,7,2
+SN2013cq,-19.21,r',Ic BL,16,1
+SN2012ap,-16.03,"UVOT (W2, W1, M2, U, B, V)",Ic BL,31,15
+SN2003jd,-18,"B, V, R, I",Ic BL,62,25
+SN2007bg,-17,"UVOT (W2, W1, M2, U, B, V), VLA, B, V, r', R, i', I",Ic BL,62,1
+SN2007ru,-17.6,"B, V, r', i'",Ic BL,71,3
+SN1997ef,-16.16,"C, B, V, R",Ic BL,73,37
+SN2007ce,-18,"Ks, B, V, r', i', J, H",Ic BL,81,10
+SN2007D,-17,"UVOT (W1, B, V), Ks, B, V, r', R, i', J, H",Ic BL,81,1
+SN2005nb,-16,"U, B, V, r', R, i'",Ic BL,122,1
+SN2007I,-15.911,"UVOT (W1, B, V), Ks, B, V, r', i', J, H",Ic BL,183,6
+SN2009bb,-16.3,"RetroCam (Y, J, H), UVOT (W2, W1, M2, U, B, V), B, V, R, I",Ic BL,234,11
+SN2006aj,-18.258,"UVOT (W2, W1, M2, U, B, V), Ks, U, B, V, r', i', J, H",Ic BL,424,45
+SN1998bw,-19,"C, U, B, V, R, I",Ic BL,527,31
+SN2002ap,-15,"C, U, B, V, R, I",Ic BL,1782,39
+SN2003dh,-24.97,"CTIO 1.3m (B, V, I), Dupont (B), FLWO (B, V, R, I), KAIT (B, V, R, I), KPNO4m (B, R), Kyoto (R), LCO (B, V, I), LCO-40 (R), MDM 1.3m+2.4m+SITe (B, V, R, I), Magellan2 (R), Mt. Laguna 1m+Loral (B, V, R, I), Palomar 1.5m+Norris (I), RTT (B, V, R, I), SSO 1m+WFI (B, V, R, I), Wise 1m+SITe (B, V, R), Wise 1m+Tek (B, V, R, I)",Ic BL,2687,13
+OGLE15xx,-22,I,Ic Pec,33,1
+SN2012hn,-13,"Z, U, B, g', V, r', R, i', I, z'",Ic Pec,151,9
+LSQ12dlf,-21,"U, B, V, r, R, I",Ic Pec?,241,18
+SN2007iq,-14,"B, V, r', i'",Ic/Ic-bl,146,1
+SN2002eg,-18,"C, R",II,10,
+SN2009gj,-14,"UVOT (W2, W1, M2, U, B, V)",II,13,
+SN2009K,-15,"B, V, r', i'",II,16,
+SN2006ba,-15,"B, V, r', i'",II,30,1
+SN2009mk,-10,"UVOT (W2, W1, M2, U, B, V)",II,41,
+SN2005by,-17,"B, V, R, I",II,66,1
+SN2013ak,-16,"UVOT (W2, W1, M2, U, B, V)",II,76,20
+SN2010jr,-17,"UVOT (W2, W1, M2, U, B, V)",II,170,
+SN2007md,-17.344,"u', g', r', i', z'",II,205,
+SN2003bg,-16.7,"C, B, V, R, I",II P,73,14
+SN2015bi,-17.699,V,IIb,6,1
+SN2011cb,-15,"UVOT (W2, W1, M2, U, B, V)",IIb,7,
+SN2016bmd,-17.6,"w, y, g, V, r, i, z",IIb,8,
+PS15bqc,-16,"w, y, g, r, i, z",IIb,10,
+SN2016M,-16,"y, g, r, i, z",IIb,11,1
+SN2016U,-17,"w, y, g, r, i, z",IIb,12,
+SN2016cgq,-20,"y, g, r, i, z",IIb,15,
+SN2004ff,-18,"V, R",IIb,19,1
+SN2001gd,-13,"C, U, B, V, R, I",IIb,21,3
+SN2016avh,-17,"w, y, r, i, z",IIb,21,
+SN2011hg,-16.4,"UVOT (W2, W1, M2, U, B, V)",IIb,22,1
+SN2000H,-16,"C, B, V, R",IIb,30,13
+SN2006bf,-15,"B, V, r', i'",IIb,32,1
+SN2008cw,-17,"B, V, r', i'",IIb,32,5
+PS15cjr,-18.4,"w, y, r, i, z",IIb,36,
+SN2011ef,-16.9,"UVOT (W2, W1, M2, U, B, V)",IIb,40,
+SN2012cd,-18.5,"r, R",IIb,48,
+SN2011ei,-15.67,"UVOT (W2, W1, M2, U, B, V), C",IIb,73,15
+SN2008aq,-16,"UVOT (W2, W1, M2, U, B, V), C, U, B, V, r', i'",IIb,84,8
+SN2006T,-16,"UVOT (W2, W1, M2), U, B, V, r', i'",IIb,105,6
+SN1996cb,-14,"B, V, R",IIb,125,28
+SN2013df,-15.36,"UVOT (W2, W1, M2, U, B, V), C",IIb,135,7
+SN2006el,-16,"B, V, r', R, i'",IIb,143,7
+SN2008bo,-15,"UVOT (W2, W1, M2, U, B, V), B, V, r', i'",IIb,227,12
+SN2011hs,-15,"UVOT (W2, W1, M2, U, B, V), u', U, B, g', V, r', R, i', I, z'",IIb,229,23
+SN2011fu,-17.165,"U, B, V, R, I",IIb,239,37
+SN2008ax,-14,"UVOT (W2, W1, M2, U, B, V), C, Ks, u', U, B, g', V, r', R, i', I, z', J, H",IIb,646,71
+SN2011dh,-15.98,"C, U, B, V, R, I",IIb,1123,78
+SN1993J,-17,"U, B, V, R, I",IIb,1815,50
+PS15bgt,-17,"w, y, g, r, i, z",IIB?,27,2
+SN2006jd,-15.5,"UVOT (W2, W1, M2, U, B, V)",IIn,55,18
+PTF11iqb,-18.6,"UVOT (W2, W1, M2, U), r, R",IIn,169,1
