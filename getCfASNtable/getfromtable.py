@@ -2,7 +2,7 @@
 doc_name        = 'CfA.SNIbc.BIGINFO.list'
 #doc_name        = 'test'
 USR='fedhere'
-PWD='erail1959'
+PWD='*******'
 import sys,os
 sys.path.append('mypython')
 import pylab as pl
