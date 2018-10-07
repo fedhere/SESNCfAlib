@@ -1,8 +1,6 @@
 Library to ingest, process, analyze, and manipulate and the Stripped Envelope Supernova time series produced by the CfA Supernova Group 
 http://www.cfa.harvard.edu/supernova/
 
-This branch extends functionalities to other SNe in the literature (including from OSN catalog aspiring to get a complete sample) but generally uses classes and objects defined primarily to host CfA data
-
 
 requires numpy, scipy, mpmath, and a few more standard python modules. 
 in addition it requires my astro utilities which are in this github repository: https://github.com/fedhere/fedsastroutils
