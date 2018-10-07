@@ -29,7 +29,7 @@ def checkfit(y, yfit, closenough):#, sig, fracdev, ngood, weights, scaleres):
     # If the MAD=0, try the MEAN absolute deviation:
     if mad<EPS: mad=np.mean(np.abs(dev))/0.8
     if mad<EPS: 
-        print "fit already good enough"
+        print ("fit already good enough")
         return (0,0,0)
     # Now the biweighted value:
     else:
@@ -39,10 +39,10 @@ def checkfit(y, yfit, closenough):#, sig, fracdev, ngood, weights, scaleres):
             q=np.where(u < 1.0)[0]
             count=len(q)
         except:
-            print "something strange about the distribution, robustcheck failed"
+            print ("something strange about the distribution, robustcheck failed")
             return (-1,0,0)
         if count < 3:
-            print 'ROBUST_SIGMA: This distribution is TOO WEIRD! Returning -1'
+            print ('ROBUST_SIGMA: This distribution is TOO WEIRD! Returning -1')
             return (-1,0,0)
         else:
             n= np.nansum(dev)
@@ -52,7 +52,7 @@ def checkfit(y, yfit, closenough):#, sig, fracdev, ngood, weights, scaleres):
             
 #; If the standard deviation = 0 then we're done:
     if sig<EPS:  
-        print "standard deviation is tiny: fit is fine"
+        print ("standard deviation is tiny: fit is fine")
         return (0,sig,0)
     if closenough > 0:
         try:
@@ -62,7 +62,7 @@ def checkfit(y, yfit, closenough):#, sig, fracdev, ngood, weights, scaleres):
             else:
                 fracdev=np.median(np.abs(dev[q]/yfit[q]))
                 if fracdev < closenough: 
-                    print "fit good enough"
+                    print ("fit good enough")
                     return (0,sig,0)
         except:
             return (0,sig,0)
@@ -76,7 +76,7 @@ def checkfit(y, yfit, closenough):#, sig, fracdev, ngood, weights, scaleres):
         s=[]
     ngood = len(y)-len(s)
     if ngood < 10:
-        print "too few good points left"
+        print ("too few good points left")
         return (2,sig,0)
     w=(1.0-b*b)
     w/=sum(w)
@@ -97,9 +97,9 @@ def myrobustpolyfit(x,y,deg,weights):
         sig_1= min((100.*sig), EPS)
         nit = 0
         while (diff > closenough) and (nit<nitmax):
-            print "iteration ", nit
+            print ("iteration ", nit)
             nit=nit+1
-            sig2=sig1
+            sig2 = sig1
             sig1=sig
 
             g = np.where(w>0)[0]
@@ -118,15 +118,15 @@ def myrobustpolyfit(x,y,deg,weights):
                                 closenough)
             if cf == 0:
                 nit=nitmax
-                print "fit converged!"            
+                print ("fit converged!")
             if cf == 2:
-                print "too few good point for robust iterations"
+                print ("too few good point for robust iterations")
                 nit=nitmax
             diff = min((np.abs(sig1-sig)/sig),(abs(sig2-sig)/sig))
     if cf == 2:
-        print "too few good point for robust iterations"
+        print ("too few good point for robust iterations")
     if cf ==0: 
-        print "fit converged!"
+        print ("fit converged!")
 
     return pars
 
@@ -143,7 +143,7 @@ def mypolynomial(x,pars):#pars1,pars2,pars3,pars4):
 
 def mytemplate(x,pars,b,template=None, sntype=None):
      if template==None:
-          print "no template povided"
+          print ("no template povided")
           import globaltemplate
           template= globaltemplate.template#.template[b]['Ib']
           #     template=Mytempclass()
@@ -165,7 +165,7 @@ def mytemplate(x,pars,b,template=None, sntype=None):
           newfit= pars[0]*(template.template[b].tempfuncy((x-pars[1])*pars[0]))+pars[2]
           return newfit
      else:
-          print "ERROR: wrong number of parameters, you can pass 3 or 4"
+          print ("ERROR: wrong number of parameters, you can pass 3 or 4")
           sys.exit(0)
 
 
@@ -195,7 +195,7 @@ def residuals(pars,x,y,e,functype,band,template=None):  # Residuals function nee
 #        pl.draw()
 #        pl.savefig("blah%s_%04d.png"%(band,counterhere))
     else: 
-        print "function can only be 'template' or 'poly'"
+        print ("function can only be 'template' or 'poly'")
         sys.exit()
 #    pl.show()
 #    print sum(resids**2)
