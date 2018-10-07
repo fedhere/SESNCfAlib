@@ -36,7 +36,7 @@ def myplot_txtcolumn(x,y,dy,labels,myfig):
 
 def myplot_setlabel(xlabel=None, ylabel=None, title=None,
                     label=None, xy=(0,0), ax=None,
-                    labsize=15, rightticks=False, verbose=False):
+                    labsize=15, rightticks=False):
     import matplotlib as mpl
     mpl.rcParams['font.size'] = labsize+0.
 #    mpl.rcParams['font.family'] = 'serif'# New Roman'
@@ -47,8 +47,7 @@ def myplot_setlabel(xlabel=None, ylabel=None, title=None,
     mpl.rcParams['ytick.labelsize'] = labsize+0.
 
     if label:
-        if verbose:
-            print ("######################## LABELS HERE ##########################")
+        print ("######################## LABELS HERE##########################")
         
         if xy==(0, 0):
             xy=(0.22, 0.20)
@@ -64,7 +63,7 @@ def myplot_setlabel(xlabel=None, ylabel=None, title=None,
             ax.set_xlabel(xlabel, fontsize=labsize+1)
             ax.set_ylabel(ylabel, fontsize=labsize+1)
     if title:
-        _ = pl.title(title)
+        pl.title(title)
 
 def myplot_err(x, y, yerr=None, xerr=None, xlim=None, ylim=None,
                symbol=None, alpha=0.5, offset=0, fig = None, fcolor=None,

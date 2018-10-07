@@ -82,7 +82,7 @@ for i,f in enumerate(fall):
 #     try:
           thissn.setsnabsR()
           if not is_empty(thissn.Rmax) and thissn.Rmax['mjd']>0:
-               print "magsanddm15s", thissn.name,thissn.Rmax['absmag'],thissn.Rmax['dmag'],thissn.Rmax['dm15'], thissn.Rmax['ddm15'] , thissn.sntype
+               print "magsanddm15s", thissn.name,thissn.Rmax['absmag'],thissn.Rmax['dmag'],thissn.Rmax['dm15'], thissn.Rmax['ddm15'] , thissn.type
                pl.errorbar(thissn.Rmax['mjd'],thissn.Rmax['mag'],yerr=thissn.Rmax['dmag'],fmt='r*')
                pl.errorbar(thissn.Rmax['mjd']+15,thissn.Rmax['mag']-thissn.Rmax['dm15'], thissn.Rmax['ddm15'],fmt='r*')
                try:
@@ -102,7 +102,7 @@ for i,f in enumerate(fall):
 
                if mynp==0:
                     continue
-               Rs['type'].append(thissn.sntype)
+               Rs['type'].append(thissn.type)
                Rs['R'].append(thissn.Rmax['absmag'])
                Rs['dR'].append(thissn.Rmax['dmag'])
                Rs['DR15'].append(thissn.Rmax['dm15'])
