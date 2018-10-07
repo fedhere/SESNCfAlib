@@ -5122,8 +5122,11 @@ class mysn:
                 #print dp
                 if np.isnan(dp):
                     continue
-                fileout.write(self.su.photcodes[b][2], lit_lc['mjd'][i],
-                              'nan', 'nan', lit_lc['d' + b][i], dp)
+                print (self.su.photcodes[b][2], lit_lc['mjd'][i],
+                                        'nan', 'nan', lit_lc['d' + b][i], dp)
+                fileout.write('{0} {1} {2} {3} {4} {5}\n'.format(self.su.photcodes[b][2],
+                                                                 lit_lc['mjd'][i],
+                                        'nan', 'nan', lit_lc['d' + b][i], dp))
         if verbose:
             print ("file out:", fileout)
         print ("NIR", nir)
@@ -5146,8 +5149,10 @@ class mysn:
                     #print dp
                     if np.isnan(dp):
                         continue
-                    fileout.write(b + 'l', lit_lc['mjd'][i], dp,
+                    print(b + 'l', lit_lc['mjd'][i], dp,
                                   lit_lc['d' + b][i])
+                    fileout.write('{0} {1} {2} {3} '.format(b + 'l', lit_lc['mjd'][i], dp,
+                                  lit_lc['d' + b][i]))
             if verbose:
                 print ("file out:", fileout)
              
