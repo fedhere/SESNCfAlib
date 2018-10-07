@@ -110,7 +110,7 @@ for i,f in enumerate(fall):
           continue
      try:
           thissn.setsnabsR()
-          print "magsanddm15s", thissn.name,thissn.Rmax['absmag'],thissn.Rmax['dmag'],thissn.Rmax['dm15'], thissn.Rmax['ddm15'] , thissn.sntype
+          print "magsanddm15s", thissn.name,thissn.Rmax['absmag'],thissn.Rmax['dmag'],thissn.Rmax['dm15'], thissn.Rmax['ddm15'] , thissn.type
           #lcall.append(thissn.photometry['V'])
           #lcallnames.append(thissn.name)
      except: pass

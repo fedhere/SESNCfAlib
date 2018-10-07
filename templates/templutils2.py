@@ -138,7 +138,7 @@ def smoothListGaussian(data,strippedXs=False,degree=15):
 
 class setupvars:
     def __init__(self):
-        self.sntypes=['Ib','Ic','IIb','Ic-bl','IIb-n']
+        self.types=['Ib','Ic','IIb','Ic-bl','IIb-n']
         self.bands =['U','u','B','V','R','I','r','i', 'J','H','K','w1','w2','m2']
         self.bandsnonir =['U','u','B','V','R','I','r','i']
         self.bandsnir =['J','H','K']
@@ -224,7 +224,7 @@ class templatesn:
         self.e_dist=e_dist
         self.incl=incl
         self.ebv=ebv
-        self.sntype=sntype
+        self.type=sntype
         self.mjdmax=mjdmax
         self.e_mjdmax=e_mjdmax
         self.ebmvhost=ebmvhost
@@ -643,8 +643,8 @@ class Mytempclass:
              pprint.pprint(self.template[b])
 
     def templateupdate(self,s):
-         if self.typetemplate[sn.sntype]==None:
-              typetemplate[sn.sntype]=copy.deepcopy(template)
+         if self.typetemplate[sn.type]==None:
+              typetemplate[sn.type]=copy.deepcopy(template)
          else:
             
               for b in ['V','R']:#su.bands:
@@ -662,8 +662,8 @@ class Mytempclass:
                 print s['new_y'], s['normphot']
                 print s['sn'],np.min(s['new_y'][~np.isnan(s['new_y'])])
 
-                typetemplate[sn.sntype][b]=stats.stats.nanmean([new_y,typetemplate[sn.sntype][b]],axis=0)
-                typetemplate[sn.sntype][b]=stats.stats.nanmean([new_y,typetemplate[sn.sntype][b]],axis=0)
+                typetemplate[sn.type][b]=stats.stats.nanmean([new_y,typetemplate[sn.type][b]],axis=0)
+                typetemplate[sn.type][b]=stats.stats.nanmean([new_y,typetemplate[sn.type][b]],axis=0)
 
 def mycavvaccaleib(x,p, secondg=False,earlyg=False, verbose=False):
      if verbose:print "\np,x",p,x
