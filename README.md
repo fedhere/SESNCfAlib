@@ -10,9 +10,9 @@ in addition it requires my astro utilities which are in this github repository: 
 
 first, set the following environmental variables (assuming bash syntax)
 
-export SESNPATH="_path_to_data_directory_"
-export SESNCFAlib="_path_to_library_/SESNCFAlib"
-export UTILPATH="_path_to_randomutils_/fedastroutils/"
+export SESNPATH=\<_path_to_data_directory_\>
+export SESNCFAlib=\<_path_to_library_/SESNCFAlib\>
+export UTILPATH=\<_path_to_randomutils_/fedastroutils/\>
 
 you then need the data... the CfA SN data can be found on the CfA Supernova Group website and upon request (to me) it can be provided in the format assumed by the library. 
 
