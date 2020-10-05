@@ -1,7 +1,7 @@
 import pylab as pl
 import numpy as np
-
-
+import os
+import json
 
 def adjustFigAspect(fig,aspect=1):
     '''
@@ -282,3 +282,389 @@ patchHandle = ax.fill_between(XX[~np.isnan(YY)],YY[~npmyplo.isnan(YY)]-YYstd[~np
     patchHandle.set_facecolor([.8, .8, .8])
     patchHandle.set_edgecolor('none')
     return lineHandles[0], patchHandle, '''
+
+
+def plotUberTemplates(sne=None, bs=None):
+    import pickle as pkl
+    import matplotlib.gridspec as gridspec
+    import os
+    from snclasses import setupvars as stp
+    import pylabsetup
+
+    from matplotlib.ticker import MultipleLocator, FormatStrFormatter    
+    #pl.rcParams['font.size']=20
+    
+    su = stp()
+    d11V = np.loadtxt(os.environ['SESNCFAlib'] + "/D11templates/V_template.txt",
+                      skiprows=4, unpack=True)# names=["t", "mag"])
+    #print (d11V)
+
+    d11R = np.loadtxt(os.environ['SESNCFAlib'] + "/D11templates/R_template.txt",
+                      skiprows=4, unpack=True)# names=["t", "mag"])
+
+
+    T15 = np.loadtxt(os.environ['SESNCFAlib'] + "/T15templates.csv",
+                      skiprows=1, unpack=True)# names=["t", "mag"])
+     
+    T15[0][T15[0] == -99] = np.nan
+    T15[1][T15[1] == -99] = np.nan
+    T15[2][T15[1] == -99] = np.nan
+
+    for i in [1,4,7,10,13]:
+        T15[i] = np.nanmax(T15[i]) - T15[i]
+    
+    fig = pl.figure(figsize=(30,30))
+    if not bs:
+        bs = ['U','u','B','V','R','r','g','I','i','J','H','K','w1','w2','m2']
+    gs = gridspec.GridSpec(len(bs)/3 + 1, 3)
+    gs.update(wspace=0.0)
+    gs.update(hspace=0.0)    
+    print (gs[-1,0])
+    vinfile =  os.environ['SESNCFAlib'] + "/templatesout/UberTemplate_V.pkl" 
+
+    vut = pkl.load(open(vinfile, 'rb'))
+    vinfile =  os.environ['SESNCFAlib'] + "/templatesout/UberTemplate_V40.pkl" 
+
+    vut40 = pkl.load(open(vinfile, 'rb'))    
+    rinfile =  os.environ['SESNCFAlib'] + "/templatesout/UberTemplate_R40.pkl" 
+
+    rut40 = pkl.load(open(rinfile, 'rb'))
+    
+    for i,b in enumerate(bs):
+        print (b)
+        if b == '': continue
+        ax = fig.add_subplot(gs[i/3,int(i%3)])
+        infile = os.environ['SESNCFAlib'] + "/templatesout/UberTemplate_%s.pkl" %\
+                   (b + 'p' if b in ['u', 'r', 'i']
+                                            else b)
+        ut = pkl.load(open(infile, 'rb'))
+        ind = (ut['std']>0)
+        
+        ax.plot(ut['epochs'], ut['med'], 'k-', alpha=0.7, lw=1)
+        ax.plot(ut['epochs'][ind], ut['mu'][ind], '-',
+                color = su.mycolors[b],lw=2)
+        ax.text(100, 0, b,va='center', ha='right')
+
+        ax.fill_between(ut['epochs'][ind],
+                        ut['pc25'][:-1][ind], ut['pc75'][:-1][ind],
+                        #ut['mu'][ind]-ut['std'][ind],
+                        #ut['mu'][ind]+ut['std'][ind],
+                        color = su.mycolors[b], alpha=0.3)
+        ax.fill_between(ut['epochs'][ind], ut['mu'][ind]-ut['wstd'][:-1][ind],
+                        ut['mu'][ind]+ut['wstd'][:-1][ind],
+                        color = su.mycolors[b], alpha=0.6)        
+        ax.plot(vut['epochs'], vut['mu'], '--', color = 'DarkGreen', lw=1)
+        ax.legend(loc=1, frameon=False, fontsize=10)
+        ax.tick_params(axis="both", which="both", bottom="on", top="on",  
+                       left="on", right="on")
+        ax.set_xlim(-27,110)
+        ax.set_ylim(2.9,-1)
+        #ax.grid(True)
+
+        ax.minorticks_on()
+        ax.tick_params('both', length=10, width=1, which='major')
+        ax.tick_params('both', length=5, width=1, which='minor')
+        ax.set_yticks([0,2])
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator = MultipleLocator(0.5)
+        #ax.yaxis.set_minor_locator(minorLocator)
+
+        if int(i%3) > 0:
+            ax.set_yticks([0, 2])            
+            ax.set_yticklabels([' ', ' '])
+        else:
+            ax.set_yticks([0, 2], ['0', '2'])
+            ax.yaxis.set_minor_locator(minorLocator)            
+            
+        if i / 3 < (len(bs) - 1) / 3:
+            ax.set_xticks([0, 50, 100])
+            ax.set_xticklabels([' ',  ' ', ' '])
+        else:
+            ax.set_xticks([0, 50, 100])
+            ax.set_xticklabels(['0', '50', '100'])
+
+    pl.text(-325, -10, "relative magnitude", rotation=90, fontsize=20)
+    pl.text(-140, 4.5, "phase (days)",fontsize=20)
+    pl.savefig(os.environ['SESNCFAlib'] +
+               "/templatesout/ubertemplates_compare.pdf")
+    os.system("pdfcrop " + 
+              os.environ['SESNCFAlib'] +
+              "/templatesout/ubertemplates_compare.pdf " +
+              os.environ['DB'] + "/papers/SESNtemplates.working/figs/ubertemplates_compare.pdf")
+    
+    pl.close(fig)
+    #return 0
+    def setticks(ax):
+        ax.minorticks_on()
+        majorLocator = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator = MultipleLocator(0.5)
+        ax.yaxis.set_major_locator(majorLocator)            
+        ax.yaxis.set_minor_locator(minorLocator)            
+       
+        ax.tick_params('both', length=10, width=1, which='major')
+        ax.tick_params('both', length=5, width=1, which='minor')
+    #comparing w D11 V and R band
+    fig = pl.figure(figsize=(15,15))
+    gs = gridspec.GridSpec(2,1)
+    gs.update(hspace=0.0)    
+
+    ax = fig.add_subplot(gs[0,0])
+    ind = vut40['epochs']<40 
+    ax.plot(vut40['epochs'][ind], vut40['mu'][ind], '-',
+            color = su.mycolors['V'],lw=2, label="V")
+    ax.plot(vut40['epochs'][ind], vut40['med'][ind], 'k-',
+            alpha=0.5, lw=1, label="median")
+    ax.fill_between(vut40['epochs'][ind],
+                    vut40['pc25'][:-1][ind], vut40['pc75'][:-1][ind],
+                    #(vut40['mu']-vut40['std'])[ind],
+                    #(vut40['mu']+vut40['std'])[ind],
+                    color = su.mycolors['V'], alpha=0.3)
+    ax.fill_between(vut40['epochs'][ind], (vut40['mu']-vut40['wstd'][:-1])[ind],
+                    (vut40['mu']+vut40['wstd'][:-1])[ind],
+                    color = su.mycolors['V'], alpha=0.6)
+    ax.plot(d11V[0],d11V[1], '-', color="SteelBlue", label='D11 V')
+    ax.set_ylim([3.2, -1.2])
+    
+    ax.set_xlabel("phase (days)")
+    ax.set_ylabel("relative magnitude")    
+    ax.tick_params(axis="both", which="both", bottom="on", top="on",  
+                   left="on", right="on")
+    setticks(ax)
+    ax.legend()
+
+    
+    ax = fig.add_subplot(gs[1,0])
+    ax.plot(rut40['epochs'][ind], rut40['mu'][ind], '-',
+            color = su.mycolors['R'],lw=2, label="R")
+    ax.plot(rut40['epochs'][ind], rut40['med'][ind], 'k-',
+            alpha=0.5, lw=1, label="median")
+    ax.fill_between(rut40['epochs'][ind],
+                    rut40['pc25'][:-1][ind], rut40['pc75'][:-1][ind],
+                    #(rut40['mu']-rut40['std'])[ind],
+                    #(rut40['mu']+rut40['std'])[ind],
+                    color = su.mycolors['R'], alpha=0.3)
+    ax.fill_between(rut40['epochs'][ind],
+                    (rut40['mu']-rut40['wstd'][:-1])[ind],
+                    (rut40['mu']+rut40['wstd'][:-1])[ind],
+                    color = su.mycolors['R'], alpha=0.6)    
+
+    ax.plot(d11R[0],d11R[1], '-', color="SteelBlue", label='D11 R')
+    ax.set_xlabel("phase (days)", fontsize=21)
+    ax.set_ylabel("relative magnitude", fontsize=21)        
+    ax.set_ylim([4.2, -1.2])
+    ax.tick_params(axis="both", which="both", bottom="on", top="on",  
+                   left="on", right="on")
+    setticks(ax)
+    ax.legend()
+    pl.savefig(os.environ['SESNCFAlib'] +
+               "/templatesout/ubertemplates_compareD11.pdf")
+
+    os.system("pdfcrop " + 
+              os.environ['SESNCFAlib'] +
+              "/templatesout/ubertemplates_compareD11.pdf " +
+              os.environ['DB'] +
+              "/papers/SESNtemplates.working/figs/ubertemplates_compareD11.pdf")
+    
+    #comparing w T15 u, r and iband
+    uinfile =  os.environ['SESNCFAlib'] + "/templatesout/UberTemplate_up.pkl" 
+
+    uut50 = pkl.load(open(uinfile, 'rb'))
+    rinfile =  os.environ['SESNCFAlib'] + "/templatesout/UberTemplate_rp.pkl" 
+
+    rut50 = pkl.load(open(rinfile, 'rb'))    
+    iinfile =  os.environ['SESNCFAlib'] + "/templatesout/UberTemplate_ip.pkl" 
+
+    iut50 = pkl.load(open(iinfile, 'rb'))
+
+    fig = pl.figure(figsize=(9,16))
+    gs = gridspec.GridSpec(3,1)
+    gs.update(hspace=0.0)    
+
+    ax = fig.add_subplot(gs[0,0])
+    ind = uut50['epochs']<50
+    
+    indu = ind * (uut50['epochs'] < 35) * (uut50['epochs'] > -15)
+
+
+    ax.plot(uut50['epochs'][indu], uut50['mu'][indu], '-',
+            color = su.mycolors['u'],lw=2, label="u'")
+    ax.plot(uut50['epochs'][indu], uut50['med'][indu], 'k-',
+            alpha=0.5, lw=1, label="median")
+    ax.fill_between(uut50['epochs'][ind],
+                    uut50['pc25'][:-1][ind], uut50['pc75'][:-1][ind],
+                    #(uut50['mu']-uut50['std'])[ind],
+                    #(uut50['mu']+uut50['std'])[ind],
+                    color = su.mycolors['u'], alpha=0.3)
+    ax.fill_between(uut50['epochs'][indu],
+                    (uut50['mu']-uut50['wstd'][:-1])[indu],
+                    (uut50['mu']+uut50['wstd'][:-1])[indu],
+                    color = su.mycolors['u'], alpha=0.6)    
+    ax.plot(T15[0],T15[1], '-', color="SteelBlue", label="T15 u'")
+    ax.fill_between(T15[0], T15[1]-T15[2], T15[1]+T15[2],
+                    color="SteelBlue", alpha=0.5)
+    ax.set_ylim([3.2, -1.2])
+    ax.set_xlim([-22.6, 53])    
+    setticks(ax)
+    ax.tick_params(axis="both", which="both", bottom="on", top="on",  
+                   left="on", right="on")    
+    ax.legend()
+
+    
+    ax = fig.add_subplot(gs[1,0])
+    ax.plot(rut50['epochs'][ind], rut50['mu'][ind], '-',
+            color = su.mycolors['R'],lw=2, label="r'")
+    ax.plot(rut50['epochs'][ind], rut50['med'][ind], 'k-',
+            alpha=0.5, lw=1, label="median")
+    ax.fill_between(rut50['epochs'][ind],
+                    rut50['pc25'][:-1][ind], rut50['pc75'][:-1][ind],
+                    #(rut50['mu']-rut50['std'])[ind],
+                    #(rut50['mu']+rut50['std'])[ind],
+                    color = su.mycolors['r'], alpha=0.3)
+    ax.fill_between(rut50['epochs'][ind],
+                    (rut50['mu']-rut50['wstd'][:-1])[ind],
+                    (rut50['mu']+rut50['wstd'][:-1])[ind],
+                    color = su.mycolors['r'], alpha=0.6)    
+
+    ax.plot(T15[6],T15[7], '-', color="SteelBlue", label="T15 r'")
+    ax.fill_between(T15[6], T15[7]-T15[8], T15[7]+T15[8],
+                     color="SteelBlue", alpha=0.5)
+
+    ax.set_ylabel("relative magnitude", fontsize=21)        
+    ax.set_ylim([3.2, -1.2])
+    ax.set_xlim([-22.6, 53])        
+    setticks(ax)
+    ax.tick_params(axis="both", which="both", bottom="on", top="on",  
+                   left="on", right="on")    
+    ax.legend()
+
+    ax = fig.add_subplot(gs[2,0])
+    ax.plot(iut50['epochs'][ind], iut50['mu'][ind], '-',
+            color = su.mycolors['R'],lw=2, label="i'")
+    ax.plot(iut50['epochs'][ind], iut50['med'][ind], 'k-',
+            alpha=0.5, lw=1, label="median")
+    ax.fill_between(iut50['epochs'][ind],
+                    iut50['pc25'][:-1][ind], iut50['pc75'][:-1][ind],
+                    #(iut50['mu']-iut50['std'])[ind],
+                    #(iut50['mu']+iut50['std'])[ind],
+                    color = su.mycolors['i'], alpha=0.3)
+    ax.fill_between(iut50['epochs'][ind],
+                    (iut50['mu']-iut50['wstd'][:-1])[ind],
+                    (iut50['mu']+iut50['wstd'][:-1])[ind],
+                    color = su.mycolors['i'], alpha=0.6)    
+
+    ax.plot(T15[9],T15[10], '-', color="SteelBlue", label="T15 i'")
+    ax.fill_between(T15[9], T15[10]-T15[11], T15[10]+T15[11],
+                      color="SteelBlue", alpha=0.5)
+
+    ax.set_xlabel("phase (days)", fontsize=21)
+    ax.set_ylim([3.2, -1.2])
+    ax.set_xlim([-22.6, 53])
+    setticks(ax)
+    ax.tick_params(axis="both", which="both", bottom="on", top="on",  
+                   left="on", right="on")
+    ax.legend(loc=8)
+    pl.savefig(os.environ['SESNCFAlib'] +
+               "/templatesout/ubertemplates_compareT15.pdf")
+
+    os.system("pdfcrop " + 
+              os.environ['SESNCFAlib'] +
+              "/templatesout/ubertemplates_compareT15.pdf " +
+              os.environ['DB'] +
+              "/papers/SESNtemplates.working/figs/ubertemplates_compareT15.pdf")
+    
+    #comparing w 03dh 03lw V and I band
+    if not sne:
+        return ax
+    
+    snecolors = pkl.load(open('colorSNe.pkl', "rb"))
+                        
+    iinfile =  os.environ['SESNCFAlib'] + "/templatesout/UberTemplate_I.pkl" 
+
+    iut = pkl.load(open(iinfile, 'rb'))
+    binfile =  os.environ['SESNCFAlib'] + "/templatesout/UberTemplate_B.pkl" 
+
+    but = pkl.load(open(binfile, 'rb'))
+    rinfile =  os.environ['SESNCFAlib'] + "/templatesout/UberTemplate_R.pkl" 
+
+    rut = pkl.load(open(rinfile, 'rb'))
+
+    fig = pl.figure(figsize=(24,21))
+    gs = gridspec.GridSpec(2,2)
+
+
+    def plottempllcv(ax, ut, b, su, sne, right=False):
+
+        ax.plot(ut['epochs'], ut['mu'], '-',
+                color = 'k', lw=2, label=b)
+        ax.plot(ut['epochs'], ut['med'], 'k-',
+                alpha=0.5, lw=1, label="median")
+        ax.fill_between(ut['epochs'],
+                        ut['pc25'][:-1], ut['pc75'][:-1],
+                        #(ut['mu']-ut['std']),
+                        #(ut['mu']+ut['std']),
+                        color = su.mycolors[b], alpha=0.3)
+        ax.fill_between(ut['epochs'],
+                        (ut['mu']-ut['wstd'][:-1]),
+                        (ut['mu']+ut['wstd'][:-1]),
+                        color = su.mycolors[b], alpha=0.6)
+
+        for sn in sne:
+            name = sn.snnameshort
+            tp = sn.sntype
+            sn = sn.photometry[b]
+            if len(sn['phase'])==0:
+                continue
+            if '03dh' in name:
+                ind = (sn['phase']>-1) * (sn['phase']<1)
+            else:
+                ind = (sn['phase'] < 50)
+                if ind.sum() == 0:
+                    continue
+
+                phasemin = np.where(sn['mag'] == sn['mag'][ind].min())[0]
+                phasemin = phasemin[0]        
+                ax.errorbar(sn['phase'] - sn['phase'][phasemin],
+                            sn['mag'] - sn['mag'][ind].min(),
+                            yerr=sn['dmag'], fmt='-',
+                            color = snecolors[name],
+                            label=name + " "+ tp)
+        
+        ax.set_ylim(ax.get_ylim()[::-1])
+        ax.set_xlabel("phase (days)", fontsize=20)
+        ax.set_ylabel("relative magnitude", fontsize=20)
+        setticks(ax)
+        if right:
+            ax.yaxis.tick_right()
+            ax.yaxis.set_ticks_position('both')
+            ax.yaxis.set_label_position("right")
+            
+        ax.legend(fontsize=10, loc=4)
+        #ax.grid(True)
+    ax = fig.add_subplot(gs[0,1])
+    plottempllcv(ax, vut, 'V', su, sne, right=True)
+    ax.set_xlim(-25,115)
+    ax.set_ylim(6.2,-0.7)
+    ax = fig.add_subplot(gs[1,1])
+    plottempllcv(ax, iut, 'I', su, sne, right=True)
+    ax.set_xlim(-25,115)
+    ax.set_ylim(6.2,-0.7)    
+    ax = fig.add_subplot(gs[0,0])
+    plottempllcv(ax, but, 'B', su, sne)
+    ax.set_xlim(-25,115)
+    ax.set_ylim(6.2,-0.7)    
+    ax = fig.add_subplot(gs[1,0])
+    plottempllcv(ax, rut, 'R', su, sne)
+    ax.set_xlim(-25,115)
+    ax.set_ylim(6.2,-0.7)    
+    gs.update(hspace=0.02)    
+    gs.update(wspace=0.02)    
+
+    pl.savefig(os.environ['SESNCFAlib'] +
+               "/templatesout/ubertemplates_compareSNe.pdf")
+    os.system("pdfcrop " + 
+              os.environ['SESNCFAlib'] +
+              "/templatesout/ubertemplates_compareSNe.pdf  " +
+              os.environ['DB'] + "/papers/SESNtemplates.working/figs/ubertemplates_compareSNe.pdf")
+    return ax
+
