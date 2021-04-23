@@ -35,11 +35,11 @@ if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
 
 from templutils import *
-
+'''
 cmd_folder = os.path.realpath(os.environ['UTILPATH'])
 if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
-
+'''
 
 
 from utils import *
