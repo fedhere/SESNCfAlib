@@ -656,7 +656,7 @@ class mysn:
         if self.lit :
         # find the optical photometry literaature files
             print (list(set(glob.glob(os.environ['SESNPATH'] + \
-                                           "/literaturedata/phot/*")
+                                           "/literaturedata/phot/*"))))
             if self.addlit:
                 litoptfiles = list(set(glob.glob(os.environ['SESNPATH'] + \
                                            "/literaturedata/phot/*" + \
