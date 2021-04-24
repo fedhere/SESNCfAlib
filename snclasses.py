@@ -655,6 +655,8 @@ class mysn:
             
         if self.lit :
         # find the optical photometry literaature files
+            print (list(set(glob.glob(os.environ['SESNPATH'] + \
+                                           "/literaturedata/phot/*")
             if self.addlit:
                 litoptfiles = list(set(glob.glob(os.environ['SESNPATH'] + \
                                            "/literaturedata/phot/*" + \
@@ -667,6 +669,7 @@ class mysn:
                                           self.snnameshort + ".[cf]")))
 
                 self.optfiles = self.optfiles + litoptfiles
+                
             else:
                 self.optfiles =  list(set(glob.glob(os.environ['SESNPATH'] + \
                                            "/literaturedata/phot/*" + \
@@ -677,7 +680,7 @@ class mysn:
                                            glob.glob(os.environ['SESNPATH'] + \
                                            "/literaturedata/phot/*" + \
                                            self.snnameshort + ".[cf]")))
-        
+           
         if not quiet:
             print ("all optical files:", self.optfiles)
             print ("\n")
