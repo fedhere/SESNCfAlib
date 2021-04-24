@@ -655,8 +655,6 @@ class mysn:
             
         if self.lit :
         # find the optical photometry literaature files
-            print (list(set(glob.glob(os.environ['SESNPATH'] + \
-                                           "/literaturedata/phot/*"))))
             if self.addlit:
                 litoptfiles = list(set(glob.glob(os.environ['SESNPATH'] + \
                                            "/literaturedata/phot/*" + \
@@ -1745,7 +1743,6 @@ class mysn:
 
     def gpphot3(self, b, phaserange=None, fig=None, ax=None,
                phasekey = 'phase'):
-        print ("here")
         if 'jd' in phasekey:
             phaseoffset = 0
         else:
@@ -1765,7 +1762,6 @@ class mysn:
         print (self.photometry[b]['phase'], self.photometry[b][phasekey], indx, x)
         if len(x)<3:
             self.gp['result'][b] = (np.nan,np.nan,np.nan)
-            print ("here3")
             return -1
         #         print phaserange, x
         #         raw_input()
@@ -1801,7 +1797,6 @@ class mysn:
                 yerr = np.concatenate([yerr, [yerr.max() * 2]])
                 #print (x,y,yerr)
             else:
-                print ("here4")
                 return -1
 
         result = op.minimize(getskgpreds, (4.0, 1.0), args=(x, y,
@@ -3091,7 +3086,6 @@ class mysn:
         self.snnameshort = self.name.replace('sn19', '').replace('sn20', '').strip()
         if verbose:
             print (self.snnameshort, "E(B-V)", ebmv)
-            print (self.filters)
         for b in self.su.bands:
 
             ##############################setting up band#########################
@@ -3148,8 +3142,6 @@ class mysn:
         if self.filters['R'] == 0 and self.filters['I'] == 0 and self.filters['r'] > 0 and self.filters['i'] > 0 and RIri == True:
 
             self.getonecolor('r-i', quiet=quiet)
-            #             print "right here",self.filters
-            #             self.printsn(color=True,cband='r-i')
             tmptimeline = np.array(self.colors['r-i']['mjd']) + self.Vmax
 
             if tmptimeline[0] > 2300000:
